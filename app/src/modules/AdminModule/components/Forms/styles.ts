@@ -1,0 +1,113 @@
+import { StyleSheet } from "react-native";
+
+export const formStyles = StyleSheet.create({
+    formContainer: {
+        backgroundColor: '#FFFFFF',
+        width: '80%',
+        maxWidth: 550,
+        height: 'auto',
+        alignSelf: 'center',
+        verticalAlign: 'middle',
+        borderRadius: 15,
+        padding: 20,
+        elevation: 5,
+        shadowColor: '#000',
+        marginBottom: 50,
+        marginTop: 20,
+    },
+    header: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#424242',
+        textAlign: 'center',
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginTop: 15,
+        marginBottom: 5,
+        color: '#616161',
+    },
+    input: {
+        color: '#616161',
+        height: 50,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 18,
+        paddingHorizontal: 15,
+        fontSize: 18,
+        borderWidth: 2,
+        borderColor: '#b1d5f7ff',
+    },
+    pickerContainer: {
+        backgroundColor: '#FFFFFF',
+        borderRadius: 18,
+        borderWidth: 2,
+        borderColor: '#b1d5f7ff',
+        overflow: 'hidden',
+    },
+    picker: {
+        height: 50,
+        color: '#616161',
+    },
+    imageUploadContainer: {
+        alignItems: 'center',
+    },
+    imagePlaceholder: {
+        height: 300,
+        width: 300,
+        backgroundColor: '#E6E6FA',
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderStyle: 'dashed',
+        borderWidth: 3,
+        borderColor: '#A020F0',
+        marginTop: 10,
+    },
+    previewImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 17,
+        resizeMode: 'cover',
+    },
+    imageText: {
+        color: '#A020F0',
+        fontWeight: '600',
+    },
+    saveButton: {
+        marginTop: 20,
+        backgroundColor: '#3DB9C5',
+        padding: 15,
+        borderRadius: 50,
+        alignItems: 'center',
+    },
+    saveButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    saveButtonDisabled: {
+        backgroundColor: '#B0BEC5',
+    },
+    subText: {
+        fontSize: 14,
+        color: '#9E9E9E',
+        fontStyle: 'italic',
+        textAlign: 'center',
+        marginTop: 10,
+    },
+    iconList: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 10,
+        padding: 10,
+        borderWidth: 2,
+        borderColor: '#b1d5f7ff',
+        borderRadius: 18,
+        backgroundColor: '#FFFFFF',
+
+    }
+})
