@@ -1,23 +1,30 @@
 import { usePictogramForm } from '@/app/src/hooks/usePictogramForm'
+import { ICategory } from '@/app/src/types/PyctogramTypes'
 import { Picker } from '@react-native-picker/picker'
+import { useLocalSearchParams } from 'expo-router'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { PictoParams } from '../PictogramManagement'
 import { formStyles } from './styles'
 
 export const PictoForm = ({ }) => {
+  const params = useLocalSearchParams() as unknown as PictoParams || {}
+  const { picto: pictoToEdit, categories } = params || {}
+  const title = pictoToEdit?.id ? 'Editar Pictograma' : 'Crear Nuevo Pictograma'
+  const parsedCategories: ICategory[] = categories ? JSON.parse(categories) : []
+
   const {
     imageUri,
-    categories,
     text,
     textSetter,
     categorySetter,
     handleSave,
     selectedCategory,
     pickImage,
-  } = usePictogramForm()
+  } = usePictogramForm({ ...params, categories: parsedCategories })
 
   return (
     <View style={formStyles.formContainer}>
-      <Text style={formStyles.header}>Crear Nuevo Pictograma</Text>
+      <Text style={formStyles.header}>{title}</Text>
       <Text style={formStyles.label}>Texto a mostrar</Text>
       <TextInput
         style={formStyles.input}
@@ -32,7 +39,7 @@ export const PictoForm = ({ }) => {
           onValueChange={(itemValue) => categorySetter(itemValue)}
           style={formStyles.picker}
         >
-          {categories.map(cat => (
+          {parsedCategories?.map(cat => (
             <Picker.Item key={cat.id} label={cat.name} value={cat.id} />
           ))}
         </Picker>

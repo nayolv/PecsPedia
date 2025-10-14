@@ -12,6 +12,15 @@ const initialCategories: ICategory[] = [
 export const useCategories = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
 
+    const categoriesSetter = async () => {
+        const storedCategories = await AsyncStorage.getItem(CATEGORY_STORAGE_KEY)
+        if (storedCategories) setCategories(JSON.parse(storedCategories))
+        else {
+            setCategories(initialCategories)
+            await AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(initialCategories))
+        }
+    }
+
     const addCategory = async (newCategory: ICategory) => {
         setCategories(prev => {
             const updated = [...prev, newCategory]
@@ -36,14 +45,6 @@ export const useCategories = () => {
         })
     }
 
-    const categoriesSetter = async () => {
-        const storedCategories = await AsyncStorage.getItem(CATEGORY_STORAGE_KEY)
-        if (storedCategories) setCategories(JSON.parse(storedCategories))
-        else {
-            setCategories(initialCategories)
-            await AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(initialCategories))
-        }
-    }
     return {
         categories,
         addCategory,

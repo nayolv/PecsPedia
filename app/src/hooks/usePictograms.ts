@@ -31,6 +31,22 @@ export const usePictograms = () => {
         await AsyncStorage.setItem(PICTO_STORAGE_KEY, JSON.stringify(updatedPictos))
     }
 
+    const updatePictogram = async (updatedPictogram: IPictogram) => {
+        setPictograms(prev => {
+            const updated = prev.map(picto => picto.id === updatedPictogram.id ? updatedPictogram : picto)
+            AsyncStorage.setItem(PICTO_STORAGE_KEY, JSON.stringify(updated))
+            return updated
+        })
+    }
+
+    const deletePictogram = async (pictoId: string) => {
+        setPictograms(prev => {
+            const updated = prev.filter(cat => cat.id !== pictoId)
+            AsyncStorage.setItem(PICTO_STORAGE_KEY, JSON.stringify(updated))
+            return updated
+        })
+    }
+
     const addPictoToPhrase = (picto: IPictogram) => {
         const updatedPictos = [...phrase, picto]
         setPhrase(updatedPictos)
@@ -42,6 +58,8 @@ export const usePictograms = () => {
         pictograms,
         phrase,
         addPictogram,
+        updatePictogram,
+        deletePictogram,
         addPictoToPhrase,
         clearPhrase,
         pictogramsSetter,

@@ -9,6 +9,8 @@ interface PictoListItemProps {
     color?: string
     subText: string
     text: string
+    onUpdate?: CallableFunction
+    onDelete?: CallableFunction
 }
 
 const defaultBtnStyle: ViewStyle = {
@@ -28,7 +30,15 @@ const iconStyle: TextStyle = {
     fontSize: 25,
 }
 
-export const ListItem = ({ imageUri, text, color = '#3BBAB1', subText = '', columns = 2 }: PictoListItemProps) => {
+export const ListItem = ({
+    imageUri,
+    text,
+    color = '#3BBAB1',
+    subText = '',
+    columns = 2,
+    onUpdate,
+    onDelete,
+}: PictoListItemProps) => {
     const CARD_SIZE = (width / columns) - 20
 
     return (
@@ -47,8 +57,18 @@ export const ListItem = ({ imageUri, text, color = '#3BBAB1', subText = '', colu
                 </View>
             </View>
             <View style={styles.actionWrapper}>
-                <RoundedButton icon='pencil' iconStyle={iconStyle} btnStyle={defaultBtnStyle} />
-                <RoundedButton icon='trash-can' iconStyle={iconStyle} btnStyle={deletBtn} />
+                <RoundedButton
+                    icon='pencil'
+                    iconStyle={iconStyle}
+                    btnStyle={defaultBtnStyle}
+                    onPress={() => onUpdate && onUpdate()}
+                />
+                <RoundedButton
+                    icon='trash-can'
+                    iconStyle={iconStyle}
+                    btnStyle={deletBtn}
+                    onPress={() => onDelete && onDelete()}
+                />
             </View>
         </View>
     )
@@ -56,7 +76,6 @@ export const ListItem = ({ imageUri, text, color = '#3BBAB1', subText = '', colu
 
 const styles = StyleSheet.create({
     listItem: {
-        flex: 1,
         flexDirection: 'row',
         padding: 10,
         backgroundColor: '#FFFFFF',

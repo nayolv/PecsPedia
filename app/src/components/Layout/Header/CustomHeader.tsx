@@ -10,10 +10,9 @@ export const CustomHeader = ({ title }: CustomHeaderProps) => {
 
     return (
         <View style={styles.headerContainer}>
-
             <View>
                 <TouchableOpacity style={styles.backButton}>
-                    <MaterialCommunityIcons name="home" size={30} color="#000" />
+                    <MaterialCommunityIcons name="home" size={50} color="#000" />
                 </TouchableOpacity>
                 <Text>Inicio</Text>
             </View>
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        paddingTop: 30,
+        paddingTop: 40,
         paddingBottom: 15,
         backgroundColor: '#FFFFFF',
         borderBottomWidth: 1,

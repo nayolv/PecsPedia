@@ -5,10 +5,14 @@ import { childRoutes } from '@/app/src/router/routes'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import { FlatList, StyleSheet, TextStyle, View, ViewStyle } from 'react-native'
 import { ListItem } from './Lists/ListItem'
-
+export interface PictoParams {
+    picto: IPictogram
+    categories: string
+}
 interface PictogramManagementProps {
     pictograms: IPictogram[]
     categories: ICategory[]
+    deletePicto: CallableFunction
 }
 
 const iconStyle: TextStyle = {
@@ -21,9 +25,14 @@ const fabBtnStyles: ViewStyle = {
     bottom: 55,
 }
 
-export const PictogramManagement = ({ pictograms, categories }: PictogramManagementProps) => {
+export const PictogramManagement = ({ pictograms, categories, deletePicto }: PictogramManagementProps) => {
     const { numColumns } = useDynamicColumns()
     const navigate = useNavigate()
+
+    const onUpdatePicto = (params: PictoParams) => {
+        const inputParams: { [key: string]: any } = { ...params };
+        navigate(childRoutes.createPicto, inputParams);
+    }
 
     return (
         <View style={styles.container}>
@@ -32,9 +41,13 @@ export const PictogramManagement = ({ pictograms, categories }: PictogramManagem
                 data={pictograms}
                 keyExtractor={(picto) => `${picto.id}`}
                 numColumns={numColumns}
-                contentContainerStyle={styles.listContent}
                 renderItem={({ item }) => {
                     const category = categories.find(cat => cat.id === item.categoryIds[0])
+                    const params: PictoParams = {
+                        picto: item,
+                        categories: JSON.stringify(categories),
+                    }
+
                     return <ListItem
                         key={item.id}
                         text={item.text}
@@ -42,11 +55,13 @@ export const PictogramManagement = ({ pictograms, categories }: PictogramManagem
                         color={category?.color}
                         imageUri={item.imageUri}
                         columns={numColumns}
+                        onUpdate={() => onUpdatePicto(params)}
+                        onDelete={() => deletePicto(item.id)}
                     />
                 }}
             />
             <RoundedButton
-                onPress={() => navigate(childRoutes.createPicto)}
+                onPress={() => navigate(childRoutes.createPicto, { categories: JSON.stringify(categories) })}
                 icon='plus-circle-outline'
                 btnStyle={fabBtnStyles}
                 iconStyle={iconStyle}
@@ -58,8 +73,6 @@ export const PictogramManagement = ({ pictograms, categories }: PictogramManagem
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        borderWidth: 1,
+        marginTop: 20,
     },
-    listContent: {
-    }
 })

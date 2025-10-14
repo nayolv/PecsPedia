@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ActivityIndicator, Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PictogramCard } from "../../components/Cards/PictogramCard/PictogramCard";
@@ -6,14 +7,17 @@ import { useDataHandler } from "../../hooks/useDataHandler";
 const { height } = Dimensions.get('window');
 
 export const UserModule: React.FC = () => {
-    const { pictograms, categories, phrase, addPictoToPhrase, clearPhrase, isLoading } = useDataHandler();
+    const { loadData, pictograms, categories, phrase, addPictoToPhrase, clearPhrase, isLoading } = useDataHandler();
+
+    useEffect(() => {
+        loadData()
+    }, [])
 
     if (isLoading) (
         <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#0000ff" />
             <Text>Cargando pictogramas...</Text>
         </View>)
-
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -22,7 +26,6 @@ export const UserModule: React.FC = () => {
                     <Text style={{ fontSize: 20 }}>Frase ({phrase.length} ítems)</Text>
                     <Text onPress={clearPhrase} style={{ color: 'red' }}>[BORRAR]</Text>
                 </View>
-
                 <View style={styles.pictogramArea}>
                     <FlatList
                         data={pictograms}

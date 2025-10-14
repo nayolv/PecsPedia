@@ -1,19 +1,31 @@
-import { IPictogram } from '@/app/src/types/PyctogramTypes'
+import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import * as ImagePicker from 'expo-image-picker'
-import { useState } from 'react'
-import { useDataHandler } from './useDataHandler'
+import { useCallback, useEffect, useState } from 'react'
+import { PictoParams } from '../modules/AdminModule/components/PictogramManagement'
+import { usePictograms } from './usePictograms'
 
-export const usePictogramForm = () => {
-    const { pictograms, categories, addPictogram, isLoading } = useDataHandler()
+interface PictoFormProps extends Omit<PictoParams, 'categories'> {
+    categories: ICategory[]
+}
 
+export const usePictogramForm = (params?: PictoFormProps) => {
+    const { addPictogram, updatePictogram, deletePictogram } = usePictograms()
+    const { picto: pictoToEdit, categories } = params || {}
     const [text, setText] = useState('')
     const [imageUri, setImageUri] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState(categories[0]?.id || '')
+    const [selectedCategory, setSelectedCategory] = useState(categories?.[0]?.id || '')
 
-    const tempId = new Date().getTime().toString()
+    const id = pictoToEdit?.id || `admin-${new Date().getTime().toString()}`
 
     const textSetter = (value: string) => setText(value)
     const categorySetter = (value: string) => setSelectedCategory(value)
+    const imageSetter = (value: string) => setImageUri(value)
+
+    const clearStates = () => {
+        textSetter('')
+        categorySetter('')
+        imageSetter('')
+    }
 
     const handleSave = async () => {
         if (!text || !selectedCategory) {
@@ -21,48 +33,57 @@ export const usePictogramForm = () => {
             return
         }
 
-        const newPicto: IPictogram = {
-            id: `admin-${tempId}`,
+        const pictoData: IPictogram = {
+            id: id,
             text: text.trim(),
             imageUri: imageUri || 'https://via.placeholder.com/150',
             categoryIds: [selectedCategory],
             audioUri: undefined,
         }
 
-        await addPictogram(newPicto)
-        alert(`Pictograma "${text}" agregado con éxito.`)
+        if (pictoToEdit?.id) {
+            await updatePictogram(pictoData)
+            alert(`Pictograma "${text}" actualizado con éxito.`)
+        } else {
+            await addPictogram(pictoData)
+            alert(`Pictograma "${text}" agregado con éxito.`)
+        }
 
-        setText('')
-        setImageUri('')
+        clearStates()
     }
 
     const pickImage = async () => {
-        // Pedir permisos de la galería si es necesario (el módulo lo maneja automáticamente
-        // en versiones recientes, pero es buena práctica tener esto en mente).
-
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images, // Solo queremos imágenes
-            allowsEditing: true, // Permitir que el usuario recorte la imagen
-            aspect: [1, 1], // Aspecto cuadrado para pictogramas
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
             quality: 1,
-        });
+        })
 
         if (!result.canceled) {
-            // Guardamos el URI local de la imagen seleccionada
-            setImageUri(result.assets[0].uri);
+            imageSetter(result.assets[0].uri)
         }
-    };
+    }
+
+    const editPictoSetter = useCallback(() => {
+        if (pictoToEdit) {
+            textSetter(pictoToEdit.text)
+            imageSetter(pictoToEdit.imageUri)
+        }
+    }, [pictoToEdit])
+
+    useEffect(() => {
+        editPictoSetter()
+    }, [])
 
     return {
         imageUri,
-        isLoading,
         text,
-        pictograms,
-        categories,
         textSetter,
         categorySetter,
         selectedCategory,
         handleSave,
         pickImage,
+        deletePictogram,
     }
 }
