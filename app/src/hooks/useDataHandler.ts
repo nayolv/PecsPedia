@@ -7,14 +7,21 @@ export const useDataHandler = () => {
     const categoriesHook = useCategoryContext()
     const isLoading = pictogramsHook.isLoading || categoriesHook.isLoading;
 
+    const loadData = async () => {
+        await Promise.all([
+            pictogramsHook.pictogramsSetter(),
+            categoriesHook.categoriesSetter()
+        ])
+    }
+
     useEffect(() => {
-        pictogramsHook.pictogramsSetter()
-        categoriesHook.categoriesSetter()
-    }, [pictogramsHook.pictograms, categoriesHook.categories, isLoading])
+        loadData()
+    }, [])
 
     return {
         ...pictogramsHook,
         ...categoriesHook,
         isLoading,
+        loadData
     }
 }

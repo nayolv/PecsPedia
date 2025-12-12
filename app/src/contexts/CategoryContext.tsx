@@ -1,6 +1,6 @@
 import { useCategories } from '@/app/src/hooks/useCategories'
 import { ICategory } from '@/app/src/types/PyctogramTypes'
-import React, { createContext, ReactNode, useContext } from 'react'
+import React, { createContext, ReactNode, useContext, useMemo } from 'react'
 
 interface CategoryContextShape {
     isLoading: boolean
@@ -16,15 +16,24 @@ const CategoryContext = createContext<CategoryContextShape | undefined>(undefine
 export const CategoryProvider = ({ children }: { children: ReactNode }) => {
     const hook = useCategories()
 
+    const value = useMemo(() => ({
+        isLoading: hook.isLoading,
+        categories: hook.categories,
+        addCategory: hook.addCategory,
+        updateCategory: hook.updateCategory,
+        deleteCategory: hook.deleteCategory,
+        categoriesSetter: hook.categoriesSetter,
+    }), [
+        hook.isLoading,
+        hook.categories,
+        hook.addCategory,
+        hook.updateCategory,
+        hook.deleteCategory,
+        hook.categoriesSetter
+    ])
+
     return (
-        <CategoryContext.Provider value={{
-            isLoading: hook.isLoading,
-            categories: hook.categories,
-            addCategory: hook.addCategory,
-            updateCategory: hook.updateCategory,
-            deleteCategory: hook.deleteCategory,
-            categoriesSetter: hook.categoriesSetter,
-        }}>
+        <CategoryContext.Provider value={value}>
             {children}
         </CategoryContext.Provider>
     )

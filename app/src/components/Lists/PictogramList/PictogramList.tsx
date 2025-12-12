@@ -2,7 +2,7 @@ import { SearchBar } from '@/app/src/components/Inputs/SearchBar/SearchBar'
 import { useDynamicColumns } from '@/app/src/hooks/useDynamicColumns'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import { Picker } from '@react-native-picker/picker'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 
 interface PictogramListProps {
@@ -17,11 +17,11 @@ export const PictogramList = ({ pictograms, categories, renderItem, headerCompon
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-    const filteredPictograms = pictograms.filter(picto => {
+    const filteredPictograms = useMemo(() => pictograms.filter(picto => {
         const matchesSearch = picto.text.toLowerCase().includes(searchQuery.toLowerCase())
         const matchesCategory = selectedCategory === 'all' || picto.categoryIds.includes(selectedCategory)
         return matchesSearch && matchesCategory
-    })
+    }), [pictograms, searchQuery, selectedCategory])
 
     return (
         <View style={styles.container}>
@@ -39,7 +39,7 @@ export const PictogramList = ({ pictograms, categories, renderItem, headerCompon
                     </Picker>
                 </View>
                 <SearchBar
-                    style={{ width: 300, marginBottom: 0 }}
+                    style={styles.searchBar}
                     placeholder="Buscar pictogramas..."
                     value={searchQuery}
                     onChangeText={setSearchQuery}
@@ -81,6 +81,10 @@ const styles = StyleSheet.create({
     picker: {
         width: '100%',
         height: '100%',
+    },
+    searchBar: {
+        width: 300,
+        marginBottom: 0
     },
     listContent: {
         paddingBottom: 20,

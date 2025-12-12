@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ICategory } from '../types/PyctogramTypes';
 import { CATEGORY_STORAGE_KEY } from '../utils/consts';
 
@@ -13,7 +13,7 @@ export const useCategories = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const categoriesSetter = async () => {
+    const categoriesSetter = useCallback(async () => {
         try {
             const storedCategories = await AsyncStorage.getItem(CATEGORY_STORAGE_KEY)
             if (storedCategories) setCategories(JSON.parse(storedCategories))
@@ -26,35 +26,35 @@ export const useCategories = () => {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
-    const addCategory = async (newCategory: ICategory) => {
+    const addCategory = useCallback(async (newCategory: ICategory) => {
         setCategories(prev => {
             const updated = [...prev, newCategory]
             AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(updated))
             return updated
         })
-    }
+    }, [])
 
-    const updateCategory = async (updatedCategory: ICategory) => {
+    const updateCategory = useCallback(async (updatedCategory: ICategory) => {
         setCategories(prev => {
             const updated = prev.map(cat => cat.id === updatedCategory.id ? updatedCategory : cat)
             AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(updated))
             return updated
         })
-    }
+    }, [])
 
-    const deleteCategory = async (categoryId: string) => {
+    const deleteCategory = useCallback(async (categoryId: string) => {
         setCategories(prev => {
             const updated = prev.filter(cat => cat.id !== categoryId)
             AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(updated))
             return updated
         })
-    }
+    }, [])
 
     useEffect(() => {
         categoriesSetter()
-    }, [])
+    }, [categoriesSetter])
 
 
     return {

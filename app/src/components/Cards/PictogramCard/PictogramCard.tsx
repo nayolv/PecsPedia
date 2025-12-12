@@ -1,25 +1,29 @@
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image } from 'expo-image'
+import React from 'react'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface PictogramCardProps {
     pictogram: IPictogram
     onPress: (picto: IPictogram) => void
     color?: string
+    size?: number
 }
 
 const { width } = Dimensions.get('window')
-const CARD_SIZE = (width / 4) - 20
+const DEFAULT_SIZE = (width / 4) - 20
 
-export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress, color = '#DDD' }) => {
+export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress, color = '#DDD', size }) => {
     const { imageUri, text } = pictogram
+    const cardSize = size || DEFAULT_SIZE
 
     return (
         <TouchableOpacity
-            style={[styles.container, { borderColor: color, borderWidth: 5 }]}
+            style={[styles.container, { borderColor: color, borderWidth: 5, width: cardSize, height: cardSize + 40 }]}
             onPress={() => onPress(pictogram)}
         >
-            <View style={styles.imageWrapper}>
-                <Image style={styles.image} source={{ uri: imageUri }} />
+            <View style={[styles.imageWrapper, { height: cardSize * 0.75 }]}>
+                <Image style={styles.image} source={{ uri: imageUri }} contentFit="contain" />
             </View>
             <Text style={styles.textLabel} numberOfLines={1}>
                 {text}
@@ -30,8 +34,6 @@ export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress
 
 const styles = StyleSheet.create({
     container: {
-        width: CARD_SIZE,
-        height: CARD_SIZE + 40,
         margin: 8,
         backgroundColor: '#FFFFFF',
         borderRadius: 10,
@@ -45,7 +47,6 @@ const styles = StyleSheet.create({
     },
     imageWrapper: {
         width: '100%',
-        height: CARD_SIZE * 0.75,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F7F7F7',

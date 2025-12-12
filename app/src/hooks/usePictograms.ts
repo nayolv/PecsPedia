@@ -1,6 +1,6 @@
 import { PICTO_STORAGE_KEY } from '@/app/src/utils/consts'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { IPictogram } from '../types/PyctogramTypes'
 
 const initialPictograms: IPictogram[] = [
@@ -17,7 +17,7 @@ export const usePictograms = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [phrase, setPhrase] = useState<IPictogram[]>([])
 
-    const pictogramsSetter = async () => {
+    const pictogramsSetter = useCallback(async () => {
         try {
             const storedPictos = await AsyncStorage.getItem(PICTO_STORAGE_KEY)
             if (storedPictos) setPictograms(JSON.parse(storedPictos))
@@ -30,9 +30,9 @@ export const usePictograms = () => {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
-    const addPictogram = async (newPicto: IPictogram) => {
+    const addPictogram = useCallback(async (newPicto: IPictogram) => {
         try {
             // Read latest stored pictograms to avoid stale overwrites
             const stored = await AsyncStorage.getItem(PICTO_STORAGE_KEY)
@@ -46,11 +46,11 @@ export const usePictograms = () => {
         } catch (error) {
             console.error("Error al añadir y guardar pictograma:", error)
         }
-    }
+    }, [])
 
     // En usePictograms.ts
 
-    const updatePictogram = async (updatedPictogram: IPictogram) => {
+    const updatePictogram = useCallback(async (updatedPictogram: IPictogram) => {
         try {
             const stored = await AsyncStorage.getItem(PICTO_STORAGE_KEY)
             const currentList: IPictogram[] = stored ? JSON.parse(stored) : []
@@ -62,9 +62,9 @@ export const usePictograms = () => {
         } catch (error) {
             console.error("Error al actualizar y guardar pictograma:", error)
         }
-    }
+    }, [])
 
-    const deletePictogram = async (pictoId: string) => {
+    const deletePictogram = useCallback(async (pictoId: string) => {
         try {
             const stored = await AsyncStorage.getItem(PICTO_STORAGE_KEY)
             const currentList: IPictogram[] = stored ? JSON.parse(stored) : []
@@ -76,13 +76,13 @@ export const usePictograms = () => {
         } catch (error) {
             console.error('Error al eliminar pictograma:', error)
         }
-    }
-    const addPictoToPhrase = (picto: IPictogram) => {
-        const updatedPictos = [...phrase, picto]
-        setPhrase(updatedPictos)
-    }
+    }, [])
 
-    const clearPhrase = () => setPhrase([])
+    const addPictoToPhrase = useCallback((picto: IPictogram) => {
+        setPhrase(prev => [...prev, picto])
+    }, [])
+
+    const clearPhrase = useCallback(() => setPhrase([]), [])
 
     return {
         isLoading,

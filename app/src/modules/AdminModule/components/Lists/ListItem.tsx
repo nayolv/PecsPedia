@@ -1,7 +1,7 @@
 import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton";
-import { Dimensions, Image, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
-
-const { width } = Dimensions.get('window')
+import { Image } from "expo-image";
+import React from "react";
+import { StyleSheet, Text, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
 
 interface PictoListItemProps {
     columns?: number
@@ -39,6 +39,7 @@ export const ListItem = ({
     onUpdate,
     onDelete,
 }: PictoListItemProps) => {
+    const { width } = useWindowDimensions()
     const CARD_SIZE = (width / columns) - 20
 
     return (
@@ -46,7 +47,7 @@ export const ListItem = ({
             <View style={styles.infoContainer}>
                 <View style={[styles.imgWrapper, { borderColor: color }]}>
                     {imageUri ?
-                        <Image style={styles.image} source={{ uri: imageUri }} />
+                        <Image style={styles.image} source={{ uri: imageUri }} contentFit="contain" />
                         :
                         <Text style={styles.noImageIcon}>🖼️</Text>
                     }
