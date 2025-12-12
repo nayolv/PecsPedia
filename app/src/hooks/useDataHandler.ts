@@ -1,32 +1,20 @@
-import { useCategories } from "./useCategories"
-import { usePictograms } from "./usePictograms"
-import { useStatus } from "./useStatus"
+import { useCategoryContext } from '@/app/src/contexts/CategoryContext'
+import { usePictogramContext } from '@/app/src/contexts/PictogramContext'
+import { useEffect } from "react"
 
 export const useDataHandler = () => {
-    const { isLoading, loadingSetter } = useStatus()
-    const pictograms = usePictograms()
-    const categories = useCategories()
+    const pictogramsHook = usePictogramContext()
+    const categoriesHook = useCategoryContext()
+    const isLoading = pictogramsHook.isLoading || categoriesHook.isLoading;
 
-    const dataSetter = async () => {
-        await pictograms.pictogramsSetter()
-        await categories.categoriesSetter()
-    }
-
-    const loadData = async () => {
-        try {
-            await dataSetter()
-        } catch (error) {
-            console.error('Error al cargar data: ', error)
-        } finally {
-            loadingSetter(false)
-        }
-    }
-
+    useEffect(() => {
+        pictogramsHook.pictogramsSetter()
+        categoriesHook.categoriesSetter()
+    }, [pictogramsHook.pictograms, categoriesHook.categories, isLoading])
 
     return {
+        ...pictogramsHook,
+        ...categoriesHook,
         isLoading,
-        loadData,
-        ...pictograms,
-        ...categories
     }
 }

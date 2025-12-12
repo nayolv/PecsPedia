@@ -1,10 +1,15 @@
 
-import { useCategoryForm } from '@/app/src/hooks/useCategoryForm';
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { COLOR_PALETTE } from '../../utils/colorConst';
-import { formStyles } from './styles';
+import { ColorSelector } from '@/app/src/components/Selectors/ColorSelector/ColorSelector'
+import { useFormCategory } from '@/app/src/hooks/useFormCategory'
+import { IPictogram } from '@/app/src/types/PyctogramTypes'
+import { useLocalSearchParams } from 'expo-router'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { CatParams } from '../../models/managementModels'
+import { formStyles } from './styles'
 
-const PictoIconSelector: React.FC<{ picto: any, isSelected: boolean, onSelect: () => void }> = ({ picto, isSelected, onSelect }) => (
+interface PictoSelectorProps { picto: any, isSelected: boolean, onSelect: () => void }
+
+const PictoIconSelector = ({ picto, isSelected, onSelect }: PictoSelectorProps) => (
     <TouchableOpacity
         style={[styles.item, isSelected && styles.selectedItem, { borderColor: picto.categoryIds ? '#3DB9C5' : '#CCC' }]}
         onPress={onSelect}
@@ -15,24 +20,28 @@ const PictoIconSelector: React.FC<{ picto: any, isSelected: boolean, onSelect: (
         />
         <Text style={styles.text} numberOfLines={1}>{picto.text}</Text>
     </TouchableOpacity>
-);
+)
 
 export const CategoryForm: React.FC = () => {
+    const params = useLocalSearchParams() as unknown as CatParams || {}
+    const { category, pictograms } = params || {}
+    const parsedCat = category ? JSON.parse(category) : {}
+    const title = parsedCat?.id ? 'Editar Categoría' : 'Crear Nueva Categoría'
+    const parsedPictograms: IPictogram[] = pictograms ? JSON.parse(pictograms) : []
+
     const {
-        pictograms,
         name,
-        isSaving,
         color,
         imageUri,
         nameSetter,
         colorSetter,
         imageUriSetter,
         handleSave,
-    } = useCategoryForm();
+    } = useFormCategory({ ...params, category: parsedCat, pictograms: parsedPictograms })
 
     return (
         <ScrollView contentContainerStyle={formStyles.formContainer}>
-            <Text style={formStyles.header}>Crear Nueva Categoría</Text>
+            <Text style={formStyles.header}>{title}</Text>
 
             <Text style={formStyles.label}>Nombre de la Categoría</Text>
             <TextInput
@@ -41,76 +50,44 @@ export const CategoryForm: React.FC = () => {
                 onChangeText={nameSetter}
                 placeholder="Ejemplo: Frutas"
             />
-
-            <Text style={formStyles.label}>Color de la Tarjeta (Código Hexadecimal)</Text>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.colorPaletteContainer}>
-                {COLOR_PALETTE.map((paletteColor) => (
-                    <TouchableOpacity
-                        key={paletteColor}
-                        onPress={() => colorSetter(paletteColor)}
-                        style={[
-                            styles.colorCircle,
-                            { backgroundColor: paletteColor },
-                            color === paletteColor && styles.selectedColorCircle,
-                        ]}
+            <Text style={formStyles.label}>Color del borde</Text>
+            <ColorSelector selectedColor={color} onPress={colorSetter} />
+            {parsedPictograms?.length ?
+                <>
+                    <Text style={formStyles.label}>Seleccionar Ícono (Opcional)</Text>
+                    <Text style={formStyles.subText}>Elige un pictograma existente para representar esta categoría.</Text>
+                    <FlatList
+                        data={parsedPictograms}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <PictoIconSelector
+                                picto={item}
+                                isSelected={item.imageUri === imageUri}
+                                onSelect={() => imageUriSetter(item.imageUri)}
+                            />
+                        )}
+                        contentContainerStyle={formStyles.iconList}
                     />
-                ))}
-            </ScrollView>
-            <View style={{ backgroundColor: color || '#FFFFFF' }} />
-            <Text style={formStyles.label}>Seleccionar Ícono (Opcional)</Text>
-            <Text style={formStyles.subText}>Elige un pictograma existente para representar esta categoría.</Text>
-            <FlatList
-                data={pictograms}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <PictoIconSelector
-                        picto={item}
-                        isSelected={item.imageUri === imageUri}
-                        onSelect={() => imageUriSetter(item.imageUri)}
-                    />
-                )}
-                contentContainerStyle={formStyles.iconList}
-            />
+                </>
+                : null
+            }
             <TouchableOpacity
-                style={[formStyles.saveButton, isSaving && formStyles.saveButtonDisabled]}
+                style={[formStyles.saveButton]}
                 onPress={handleSave}
-                disabled={isSaving || !name || color.length < 4}
+                disabled={!name || color?.length < 4}
             >
                 <Text style={formStyles.saveButtonText}>
-                    {isSaving ? 'GUARDANDO...' : 'GUARDAR CATEGORÍA'}
+                    GUARDAR CATEGORÍA
                 </Text>
             </TouchableOpacity>
 
         </ScrollView>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
-    colorPaletteContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        marginBottom: 15,
-        paddingHorizontal: 5,
-    },
-    colorCircle: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        margin: 5,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-    },
-    selectedColorCircle: {
-        borderWidth: 4,
-        borderColor: '#333',
-    },
     item: {
         padding: 10,
         marginHorizontal: 5,

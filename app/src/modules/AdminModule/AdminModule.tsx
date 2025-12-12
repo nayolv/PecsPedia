@@ -1,19 +1,21 @@
-import { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { BasicLoader } from '../../components/Loaders/BasicLoader'
 import { Tab } from '../../components/Tabs/Tab'
 import { useDataHandler } from '../../hooks/useDataHandler'
 import { useTabs } from '../../hooks/useTabs'
+import { CategoryManagement } from './components/CategoryManagement'
 import { PictogramManagement } from './components/PictogramManagement'
 import { TabKey, tabs } from './utils/tabs'
 
 export const AdminModule: React.FC = () => {
-    const { loadData, isLoading, pictograms, categories, deletePictogram } = useDataHandler()
     const { activeTab, handleActiveTab } = useTabs<TabKey>('pictograms')
-
-    useEffect(() => {
-        loadData()
-    }, [])
+    const {
+        isLoading,
+        pictograms,
+        categories,
+        deletePictogram,
+        deleteCategory,
+    } = useDataHandler()
 
     if (isLoading) return <BasicLoader />
 
@@ -32,9 +34,16 @@ export const AdminModule: React.FC = () => {
             </View>
             {activeTab === 'pictograms' &&
                 <PictogramManagement
+                    pictograms={pictograms}
+                    categories={categories}
+                    onDelete={deletePictogram}
+                />
+            }
+            {activeTab === 'categories' &&
+                <CategoryManagement
                     categories={categories}
                     pictograms={pictograms}
-                    deletePicto={deletePictogram}
+                    onDelete={deleteCategory}
                 />
             }
         </View>

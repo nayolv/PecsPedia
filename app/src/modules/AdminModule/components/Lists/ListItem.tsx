@@ -7,7 +7,7 @@ interface PictoListItemProps {
     columns?: number
     imageUri?: string
     color?: string
-    subText: string
+    subText?: string
     text: string
     onUpdate?: CallableFunction
     onDelete?: CallableFunction

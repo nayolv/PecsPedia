@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICategory } from '../types/PyctogramTypes';
 import { CATEGORY_STORAGE_KEY } from '../utils/consts';
 
@@ -11,13 +11,20 @@ const initialCategories: ICategory[] = [
 
 export const useCategories = () => {
     const [categories, setCategories] = useState<ICategory[]>([])
+    const [isLoading, setIsLoading] = useState(true)
 
     const categoriesSetter = async () => {
-        const storedCategories = await AsyncStorage.getItem(CATEGORY_STORAGE_KEY)
-        if (storedCategories) setCategories(JSON.parse(storedCategories))
-        else {
-            setCategories(initialCategories)
-            await AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(initialCategories))
+        try {
+            const storedCategories = await AsyncStorage.getItem(CATEGORY_STORAGE_KEY)
+            if (storedCategories) setCategories(JSON.parse(storedCategories))
+            else {
+                setCategories(initialCategories)
+                await AsyncStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(initialCategories))
+            }
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -45,7 +52,13 @@ export const useCategories = () => {
         })
     }
 
+    useEffect(() => {
+        categoriesSetter()
+    }, [])
+
+
     return {
+        isLoading,
         categories,
         addCategory,
         updateCategory,

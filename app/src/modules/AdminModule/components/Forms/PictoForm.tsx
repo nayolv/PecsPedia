@@ -1,16 +1,18 @@
-import { usePictogramForm } from '@/app/src/hooks/usePictogramForm'
-import { ICategory } from '@/app/src/types/PyctogramTypes'
+import { useFormPictogram } from '@/app/src/hooks/useFormPictogram'
+import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import { Picker } from '@react-native-picker/picker'
 import { useLocalSearchParams } from 'expo-router'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { PictoParams } from '../PictogramManagement'
+import { PictoParams } from '../../models/managementModels'
 import { formStyles } from './styles'
 
 export const PictoForm = ({ }) => {
   const params = useLocalSearchParams() as unknown as PictoParams || {}
-  const { picto: pictoToEdit, categories } = params || {}
+  const { picto, categories, pictograms } = params || {}
+  const pictoToEdit = picto ? JSON.parse(picto) : null
   const title = pictoToEdit?.id ? 'Editar Pictograma' : 'Crear Nuevo Pictograma'
   const parsedCategories: ICategory[] = categories ? JSON.parse(categories) : []
+  const parsedPictograms: IPictogram[] = pictograms ? JSON.parse(pictograms) : []
 
   const {
     imageUri,
@@ -20,7 +22,12 @@ export const PictoForm = ({ }) => {
     handleSave,
     selectedCategory,
     pickImage,
-  } = usePictogramForm({ ...params, categories: parsedCategories })
+  } = useFormPictogram({
+    ...params,
+    categories: parsedCategories,
+    picto: pictoToEdit,
+    pictograms: parsedPictograms
+  })
 
   return (
     <View style={formStyles.formContainer}>

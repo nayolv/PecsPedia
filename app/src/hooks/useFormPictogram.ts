@@ -1,21 +1,25 @@
+import { usePictogramContext } from '@/app/src/contexts/PictogramContext'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import * as ImagePicker from 'expo-image-picker'
+import { useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
-import { PictoParams } from '../modules/AdminModule/components/PictogramManagement'
-import { usePictograms } from './usePictograms'
 
-interface PictoFormProps extends Omit<PictoParams, 'categories'> {
+interface PictoFormProps {
     categories: ICategory[]
+    picto: IPictogram
+    pictograms: IPictogram[]
 }
 
-export const usePictogramForm = (params?: PictoFormProps) => {
-    const { addPictogram, updatePictogram, deletePictogram } = usePictograms()
+export const useFormPictogram = (params?: PictoFormProps) => {
+    const router = useRouter()
+
+    const { addPictogram, updatePictogram, deletePictogram, pictogramsSetter } = usePictogramContext()
     const { picto: pictoToEdit, categories } = params || {}
+
     const [text, setText] = useState('')
     const [imageUri, setImageUri] = useState('')
     const [selectedCategory, setSelectedCategory] = useState(categories?.[0]?.id || '')
 
-    const id = pictoToEdit?.id || `admin-${new Date().getTime().toString()}`
 
     const textSetter = (value: string) => setText(value)
     const categorySetter = (value: string) => setSelectedCategory(value)
@@ -33,8 +37,10 @@ export const usePictogramForm = (params?: PictoFormProps) => {
             return
         }
 
+        const id = pictoToEdit?.id || `picto-${new Date().getTime().toString()}`
+
         const pictoData: IPictogram = {
-            id: id,
+            id: pictoToEdit?.id || id,
             text: text.trim(),
             imageUri: imageUri || 'https://via.placeholder.com/150',
             categoryIds: [selectedCategory],
@@ -42,13 +48,17 @@ export const usePictogramForm = (params?: PictoFormProps) => {
         }
 
         if (pictoToEdit?.id) {
-            await updatePictogram(pictoData)
+            await updatePictogram(pictoData) // Ya espera la persistencia
             alert(`Pictograma "${text}" actualizado con éxito.`)
         } else {
-            await addPictogram(pictoData)
+            await addPictogram(pictoData) // Ya espera la persistencia
             alert(`Pictograma "${text}" agregado con éxito.`)
         }
 
+        // ⚠️ ELIMINAR ESTA LÍNEA. ES ELIMINADA DEBIDO A QUE YA NO ES NECESARIA POR LAS MODIFICACIONES DE LOS HOOKS ANTERIORES.
+        // await pictogramsSetter()
+
+        router.back() // El flujo espera aquí hasta que updatePictogram/addPictogram finaliza
         clearStates()
     }
 
@@ -65,15 +75,16 @@ export const usePictogramForm = (params?: PictoFormProps) => {
         }
     }
 
-    const editPictoSetter = useCallback(() => {
+    const pictoToUpdateSetter = useCallback(() => {
         if (pictoToEdit) {
-            textSetter(pictoToEdit.text)
-            imageSetter(pictoToEdit.imageUri)
+            textSetter(pictoToEdit?.text)
+            categorySetter(pictoToEdit?.categoryIds[0])
+            imageSetter(pictoToEdit?.imageUri)
         }
     }, [pictoToEdit])
 
     useEffect(() => {
-        editPictoSetter()
+        pictoToUpdateSetter()
     }, [])
 
     return {
