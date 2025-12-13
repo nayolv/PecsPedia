@@ -18,7 +18,7 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
             <View style={styles.phraseWrapper}>
                 <RoundedButton
                     icon='volume-high'
-                    iconStyle={{ fontSize: 50 }}
+                    iconStyle={{ fontSize: 35 }}
                     btnStyle={{ backgroundColor: "#444fb1ff", marginRight: 10, marginLeft: 10 }}
                     onPress={onSpeak}
                 />
@@ -36,7 +36,7 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
                     </ScrollView>
                 </View>
                 <RoundedButton
-                    iconStyle={{ fontSize: 50 }}
+                    iconStyle={{ fontSize: 35 }}
                     icon='trash-can'
                     btnStyle={{ backgroundColor: "#cf4e4eff", marginRight: 10, marginLeft: 10 }}
                     onPress={onClear}
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     topSection: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: height * 0.15,
+        height: height * 0.14,
         justifyContent: 'center',
         marginBottom: 15,
     },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     phraseWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#81b3dbff',
+        backgroundColor: '#81B3DB',
         borderRadius: 15,
         paddingVertical: 10,
         width: '90%',
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     },
     phraseItem: {
         marginRight: 5,
-        width: 90,
-        height: 90,
+        width: 70,
+        height: 70,
         justifyContent: 'center',
         alignItems: 'center',
     },

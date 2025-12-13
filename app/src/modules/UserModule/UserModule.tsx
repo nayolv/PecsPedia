@@ -50,7 +50,7 @@ export const UserModule: React.FC = () => {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: '#c7f1e9ff' },
+    safeArea: { flex: 1, backgroundColor: '#6ca9bb15' },
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',

@@ -14,7 +14,7 @@ interface CategorySelectorProps {
 
 export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, selectedCategoryId, onSelectCategory }) => {
     return (
-        <View style={styles.bottomSection}>
+        <View style={styles.container}>
             <View style={styles.categoriesWrapper}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesScroll}>
                     <TouchableOpacity
@@ -24,8 +24,8 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, 
                         <View style={[
                             styles.categoryCircle,
                             {
-                                backgroundColor: '#FF7043',
-                                borderWidth: selectedCategoryId === null ? 3 : 0,
+                                backgroundColor: '#6BAABB',
+                                borderWidth: selectedCategoryId === null ? 4 : 2,
                                 borderColor: '#FFF'
                             }]}>
                             <Ionicons name="grid" size={24} color="#FFF" />
@@ -44,11 +44,11 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, 
                                     styles.categoryCircle,
                                     {
                                         backgroundColor: cat.color,
-                                        borderWidth: selectedCategoryId === cat.id ? 3 : 0,
-                                        borderColor: '#FFF'
+                                        borderWidth: selectedCategoryId === cat.id ? 5 : 2,
+                                        borderColor: cat.color,
                                     }]}>
                                 {cat.imageUri ? (
-                                    <Image source={{ uri: cat.imageUri }} style={styles.categoryImage} contentFit="contain" />
+                                    <Image source={{ uri: cat.imageUri }} style={styles.categoryImage} contentFit="cover" />
                                 ) : (
                                     <Text style={{ fontSize: 10 }}>{cat.name.substring(0, 2)}</Text>
                                 )}
@@ -57,18 +57,16 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, 
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
-
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    bottomSection: {
-        height: height * 0.18,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        paddingVertical: 10,
+    container: {
+        width: '100%',
+        alignItems: 'center',
+        paddingBottom: 10,
     },
     categoriesWrapper: {
         width: '90%',
@@ -76,6 +74,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         borderRadius: 15,
         paddingVertical: 15,
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     categoriesScroll: {
         paddingHorizontal: 15,
@@ -89,7 +92,7 @@ const styles = StyleSheet.create({
     categoryCircle: {
         width: 60,
         height: 60,
-        borderRadius: 30,
+        borderRadius: 40,
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 5,
@@ -101,8 +104,8 @@ const styles = StyleSheet.create({
         shadowRadius: 1.41,
     },
     categoryImage: {
-        width: '60%',
-        height: '60%',
+        width: '100%',
+        height: '100%',
     },
     categoryText: {
         fontSize: 12,

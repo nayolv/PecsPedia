@@ -26,7 +26,7 @@ export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress
                 <Image style={styles.image} source={{ uri: imageUri }} contentFit="contain" />
             </View>
             <Text style={styles.textLabel} numberOfLines={1}>
-                {text}
+                {text?.toUpperCase()}
             </Text>
         </TouchableOpacity>
     )

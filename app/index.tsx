@@ -1,5 +1,7 @@
+import { Stack } from 'expo-router'
 import { StyleSheet, View } from 'react-native'
 import { ProfileCard } from './src/components/Cards/ProfileCard/ProfileCard'
+import { CustomHeader } from './src/components/Layout/Header/CustomHeader'
 import { useNavigate } from './src/hooks/useNavigate'
 import { baseRoutes } from './src/router/routes'
 
@@ -10,22 +12,29 @@ export default function IndexScreen() {
   const ADMIN_ICON = 'cog-outline'
 
   return (
-    <View style={styles.container}>
-      <View style={styles.cardContainer}>
-        <ProfileCard
-          text="Perfil del Niño"
-          icon={CHILD_ICON}
-          color="#FFD700"
-          onClick={() => navigate(baseRoutes.user)}
-        />
-        <ProfileCard
-          text="Perfil del Administrador"
-          icon={ADMIN_ICON}
-          color="#008080"
-          onClick={() => navigate(baseRoutes.admin)}
-        />
+    <>
+      <Stack.Screen
+        options={{
+          header: () => <CustomHeader title="PECSPEDIA" showBackButton={false} containerStyle={{ backgroundColor: '#81B3DB' }} />,
+        }}
+      />
+      <View style={styles.container}>
+        <View style={styles.cardContainer}>
+          <ProfileCard
+            text="USUARIO"
+            icon={CHILD_ICON}
+            color="#81B3DB"
+            onClick={() => navigate(baseRoutes.user)}
+          />
+          <ProfileCard
+            text="Perfil del Administrador"
+            icon={ADMIN_ICON}
+            color="#008080"
+            onClick={() => navigate(baseRoutes.admin)}
+          />
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 

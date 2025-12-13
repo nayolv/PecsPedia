@@ -13,15 +13,13 @@ export const PictogramGrid: React.FC<PictogramGridProps> = ({ pictograms, catego
     const { width, height } = useWindowDimensions();
     const isPortrait = height > width;
 
-    const minColumnWidth = 220;
-    const availableWidth = width - 10; // paddingHorizontal: 5 * 2
+    const minColumnWidth = 140;
+    const availableWidth = width - 10;
 
-    // En vertical mínimo 2, en horizontal mínimo 4
-    const minCols = isPortrait ? 2 : 4;
+    const minCols = isPortrait ? 3 : 5;
     const numColumns = Math.max(minCols, Math.floor(availableWidth / minColumnWidth));
 
-    const cardSize = (availableWidth / numColumns) - 16; // margin: 8 * 2
-
+    const cardSize = (availableWidth / numColumns) - 16;
     return (
         <View style={styles.middleSection}>
             <FlatList
