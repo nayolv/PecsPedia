@@ -21,6 +21,11 @@ const defaultBtnStyle: ViewStyle = {
     marginHorizontal: 5
 }
 
+const updateBtn: ViewStyle = {
+    ...defaultBtnStyle,
+    backgroundColor: '#6BA4B7'
+}
+
 const deletBtn: ViewStyle = {
     ...defaultBtnStyle,
     backgroundColor: '#EA5B4C'
@@ -61,7 +66,7 @@ export const ListItem = ({
                 <RoundedButton
                     icon='pencil'
                     iconStyle={iconStyle}
-                    btnStyle={defaultBtnStyle}
+                    btnStyle={updateBtn}
                     onPress={() => onUpdate && onUpdate()}
                 />
                 <RoundedButton

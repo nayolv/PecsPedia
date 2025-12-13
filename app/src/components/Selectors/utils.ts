@@ -26,19 +26,6 @@ export const COLOR_PALETTE = [
     '#4682B4', // Azul acero
     '#9ACD32', // Verde amarillento
     '#FFA500', // Naranja
-    '#2E8B57', // Verde mar
-    '#CD5C5C', // Rojo indio
-    '#4169E1', // Azul real
-    '#D2691E', // Chocolate
-    '#8B008B', // Magenta oscuro
-    '#556B2F', // Verde oliva oscuro
-    '#FF1493', // Rosa profundo
-    '#00BFFF', // Azul profundo
-    '#ADFF2F', // Verde amarillento
-    '#FF0000', // Rojo
-    '#00FF00', // Verde
-    '#0000FF', // Azul
-    '#FFFF00', // Amarillo
     '#00FFFF', // Cian
     '#FF00FF', // Magenta
     '#FFFFFF', // Blanco
@@ -49,10 +36,21 @@ export const COLOR_PALETTE = [
     '#5F9EA0', // Azul cadete
     '#7CFC00', // Verde césped
     '#D2B48C', // Tan
-    '#FAFAD2', // Amarillo claro
+    '#FF4500', // Rojo naranja
     '#D8BFD8', // Cardo
     '#FF69B4', // Rosa intenso
     '#FF8C00', // Naranja oscuro
-    '#8B4513', // Marrón silla de montar
-
+    '#32CD32', // Lima
+    '#1E90FF', // Azul dodger
+    '#DA70D6', // Orquídea
+    '#EEE8AA', // Amarillo pálido
+    '#3CB371', // Verde mar medio
+    '#AFEEEE', // Turquesa pálido
+    '#DB7093', // Rosa pálido violeta
+    '#6A5ACD', // Azul pizarra
+    '#B0C4DE', // Azul acero claro
+    '#F0E68C', // Caqui
+    '#E0FFFF', // Cian pálido
+    '#FFDEAD', // Navajo blanco
+    '#B22222', // Rojo ladrillo
 ];

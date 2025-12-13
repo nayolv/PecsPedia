@@ -7,7 +7,7 @@ import { CategoryManagement } from './components/CategoryManagement'
 import { PictogramManagement } from './components/PictogramManagement'
 import { TabKey, tabs } from './utils/tabs'
 
-export const AdminModule: React.FC = () => {
+export const AdminModule = () => {
     const { activeTab, handleActiveTab } = useTabs<TabKey>('pictograms')
     const {
         isLoading,
@@ -22,13 +22,15 @@ export const AdminModule: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.tabContainer}>
-                {tabs.map((tab) => (
+                {tabs.map((tab, index) => (
                     <Tab
                         key={tab.key}
                         tabKey={tab.key}
                         label={tab.label}
                         activeTab={activeTab}
                         handleActiveTab={handleActiveTab}
+                        isFirst={index === 0}
+                        isLast={index === tabs.length - 1}
                     />
                 ))}
             </View>
@@ -53,13 +55,12 @@ export const AdminModule: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#E3F1FE',
+        backgroundColor: '#E6EDED',
     },
     tabContainer: {
         flexDirection: 'row',
         height: 'auto',
-        padding: 20,
-        borderBottomWidth: 1,
-        borderColor: '#CDDDEA'
+        paddingVertical: 10,
+        paddingHorizontal: 10,
     },
 })

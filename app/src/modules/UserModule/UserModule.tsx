@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDataHandler } from "../../hooks/useDataHandler";
+import { useSpeech } from "../../hooks/useSpeech";
 import { CategorySelector } from "./components/CategorySelector";
 import { PhraseBuilder } from "./components/PhraseBuilder";
 import { PictogramGrid } from "./components/PictogramGrid";
 
 export const UserModule: React.FC = () => {
     const { loadData, pictograms, categories, phrase, addPictoToPhrase, clearPhrase, isLoading } = useDataHandler();
+    const { speakPhrase } = useSpeech();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
 
     useEffect(() => {
@@ -31,6 +33,7 @@ export const UserModule: React.FC = () => {
             <PhraseBuilder
                 phrase={phrase}
                 onClear={clearPhrase}
+                onSpeak={() => speakPhrase(phrase)}
             />
             <PictogramGrid
                 pictograms={filteredPictograms}

@@ -3,7 +3,7 @@ import { ColorSelector } from '@/app/src/components/Selectors/ColorSelector/Colo
 import { useFormCategory } from '@/app/src/hooks/useFormCategory'
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
 import { useLocalSearchParams } from 'expo-router'
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { CatParams } from '../../models/managementModels'
 import { formStyles } from './styles'
 
@@ -36,6 +36,7 @@ export const CategoryForm: React.FC = () => {
         nameSetter,
         colorSetter,
         imageUriSetter,
+        pickImage,
         handleSave,
     } = useFormCategory({ ...params, category: parsedCat, pictograms: parsedPictograms })
 
@@ -52,9 +53,23 @@ export const CategoryForm: React.FC = () => {
             />
             <Text style={formStyles.label}>Color del borde</Text>
             <ColorSelector selectedColor={color} onPress={colorSetter} />
+
+            <Text style={formStyles.label}>Imagen de la Categoría</Text>
+            <View style={formStyles.imageUploadContainer}>
+                <TouchableOpacity
+                    style={formStyles.imagePlaceholder}
+                    onPress={pickImage}>
+                    {imageUri ? (
+                        <Image source={{ uri: imageUri }} style={formStyles.previewImage} />
+                    ) : (
+                        <Text style={formStyles.imageText}>Click para Subir Imagen</Text>
+                    )}
+                </TouchableOpacity>
+            </View>
+
             {parsedPictograms?.length ?
                 <>
-                    <Text style={formStyles.label}>Seleccionar Ícono (Opcional)</Text>
+                    <Text style={formStyles.label}>O Seleccionar Ícono Existente</Text>
                     <Text style={formStyles.subText}>Elige un pictograma existente para representar esta categoría.</Text>
                     <FlatList
                         data={parsedPictograms}

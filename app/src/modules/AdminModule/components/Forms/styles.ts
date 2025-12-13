@@ -46,10 +46,6 @@ export const formStyles = StyleSheet.create({
         borderColor: '#b1d5f7ff',
         overflow: 'hidden',
     },
-    picker: {
-        height: 50,
-        color: '#616161',
-    },
     imageUploadContainer: {
         alignItems: 'center',
     },

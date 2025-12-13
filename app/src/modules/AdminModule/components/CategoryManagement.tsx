@@ -26,7 +26,7 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
     <View style={styles.container}>
       <View style={styles.filtersContainer}>
         <SearchBar
-          style={{ width: '25%' }}
+          style={{ width: '30%' }}
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Buscar categorías..."
@@ -59,7 +59,7 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
       />
       <RoundedButton
         onPress={() => navigate(childRoutes.createCategory, { categories: JSON.stringify(categories) })}
-        icon='plus-circle-outline'
+        icon='plus'
         btnStyle={fabBtnStyles}
         iconStyle={iconStyle}
       />

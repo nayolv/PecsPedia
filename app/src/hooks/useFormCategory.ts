@@ -1,4 +1,5 @@
 import { useCategoryContext } from '@/app/src/contexts/CategoryContext'
+import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from "expo-router"
 import { useCallback, useEffect, useState } from "react"
 import { CatParams } from "../modules/AdminModule/models/managementModels"
@@ -25,6 +26,19 @@ export const useFormCategory = (params?: CatFormProps) => {
     const colorSetter = (color: string) => setColor(color)
     const imageUriSetter = (uri: string) => {
         setImageUri(uri)
+    }
+
+    const pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.5,
+        })
+
+        if (!result.canceled) {
+            setImageUri(result.assets[0].uri)
+        }
     }
 
     const clearStates = () => {
@@ -78,6 +92,7 @@ export const useFormCategory = (params?: CatFormProps) => {
         nameSetter,
         colorSetter,
         imageUriSetter,
+        pickImage,
         handleSave,
     }
 }

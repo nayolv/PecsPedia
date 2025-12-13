@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { COLOR_PALETTE } from '../utils'
 
 interface ColorSelectorProps {
@@ -9,23 +9,18 @@ interface ColorSelectorProps {
 export const ColorSelector = ({ selectedColor, onPress }: ColorSelectorProps) => {
 
     return (
-        <View>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.colorPaletteContainer}>
-                {COLOR_PALETTE.map((paletteColor) => (
-                    <TouchableOpacity
-                        key={paletteColor}
-                        onPress={() => onPress(paletteColor)}
-                        style={[
-                            styles.colorCircle,
-                            { backgroundColor: paletteColor },
-                            selectedColor === paletteColor && styles.selectedColorCircle,
-                        ]}
-                    />
-                ))}
-            </ScrollView>
+        <View style={styles.colorPaletteContainer}>
+            {COLOR_PALETTE.map((paletteColor) => (
+                <TouchableOpacity
+                    key={paletteColor}
+                    onPress={() => onPress(paletteColor)}
+                    style={[
+                        styles.colorCircle,
+                        { backgroundColor: paletteColor },
+                        selectedColor === paletteColor && styles.selectedColorCircle,
+                    ]}
+                />
+            ))}
         </View>
     )
 }
@@ -33,7 +28,8 @@ export const ColorSelector = ({ selectedColor, onPress }: ColorSelectorProps) =>
 const styles = StyleSheet.create({
     colorPaletteContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
         marginBottom: 15,
         paddingHorizontal: 5,
     },
@@ -41,7 +37,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        margin: 5,
+        margin: 6,
         elevation: 3,
         shadowColor: '#000',
         shadowOpacity: 0.2,

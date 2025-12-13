@@ -8,4 +8,7 @@ export const fabBtnStyles: ViewStyle = {
     position: 'absolute',
     right: 10,
     bottom: 55,
+    borderWidth: 3,
+    borderColor: '#fff',
+    backgroundColor: '#6AA5B7',
 }

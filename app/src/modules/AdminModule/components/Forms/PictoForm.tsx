@@ -1,6 +1,6 @@
+import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/CustomPicker'
 import { useFormPictogram } from '@/app/src/hooks/useFormPictogram'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
-import { Picker } from '@react-native-picker/picker'
 import { useLocalSearchParams } from 'expo-router'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { PictoParams } from '../../models/managementModels'
@@ -10,7 +10,6 @@ export const PictoForm = ({ }) => {
   const params = useLocalSearchParams() as unknown as PictoParams || {}
   const { picto, categories, pictograms } = params || {}
   const pictoToEdit = picto ? JSON.parse(picto) : null
-  const title = pictoToEdit?.id ? 'Editar Pictograma' : 'Crear Nuevo Pictograma'
   const parsedCategories: ICategory[] = categories ? JSON.parse(categories) : []
   const parsedPictograms: IPictogram[] = pictograms ? JSON.parse(pictograms) : []
 
@@ -31,7 +30,6 @@ export const PictoForm = ({ }) => {
 
   return (
     <View style={formStyles.formContainer}>
-      <Text style={formStyles.header}>{title}</Text>
       <Text style={formStyles.label}>Texto a mostrar</Text>
       <TextInput
         style={formStyles.input}
@@ -40,17 +38,12 @@ export const PictoForm = ({ }) => {
         placeholder="Ejemplo: ¡Quiero!"
       />
       <Text style={formStyles.label}>Categoría</Text>
-      <View style={formStyles.pickerContainer}>
-        <Picker
-          selectedValue={selectedCategory}
-          onValueChange={(itemValue) => categorySetter(itemValue)}
-          style={formStyles.picker}
-        >
-          {parsedCategories?.map(cat => (
-            <Picker.Item key={cat.id} label={cat.name} value={cat.id} />
-          ))}
-        </Picker>
-      </View>
+      <CustomPicker
+        selectedValue={selectedCategory}
+        onValueChange={(itemValue) => categorySetter(itemValue)}
+        items={parsedCategories?.map(cat => ({ label: cat.name, value: cat.id })) || []}
+        containerStyle={formStyles.pickerContainer}
+      />
       <Text style={formStyles.label}>Imagen/Ícono</Text>
       <View style={formStyles.imageUploadContainer}>
         <TouchableOpacity
