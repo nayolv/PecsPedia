@@ -5,5 +5,5 @@ interface HeaderAdminProps {
 }
 
 export const HeaderAdmin = ({ title }: HeaderAdminProps) => {
-    return <CustomHeader title={title} containerStyle={{ backgroundColor: '#6BAABB' }} />
+    return <CustomHeader title={title} containerStyle={{ backgroundColor: '#6BAABB' }} backIconName="logout" />
 }

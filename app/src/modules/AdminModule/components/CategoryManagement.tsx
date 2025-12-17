@@ -1,4 +1,4 @@
-import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton"
+import { BasicButton } from "@/app/src/components/Buttons/BasicButton/BasicButton"
 import { SearchBar } from "@/app/src/components/Inputs/SearchBar/SearchBar"
 import { useDynamicColumns } from "@/app/src/hooks/useDynamicColumns"
 import { useNavigate } from "@/app/src/hooks/useNavigate"
@@ -6,7 +6,7 @@ import { childRoutes } from "@/app/src/router/routes"
 import { useMemo, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import { CategoryManagementProps, CatParams } from "../models/managementModels"
-import { fabBtnStyles, iconStyle } from "../utils/stylesUtils"
+import { fabBtnStyles } from "../utils/stylesUtils"
 import { ListItem } from "./Lists/ListItem"
 
 export const CategoryManagement = ({ categories, pictograms, onDelete }: CategoryManagementProps) => {
@@ -57,11 +57,11 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
           />
         }}
       />
-      <RoundedButton
+      <BasicButton
+        title="Crear"
         onPress={() => navigate(childRoutes.createCategory, { categories: JSON.stringify(categories) })}
         icon='plus'
-        btnStyle={fabBtnStyles}
-        iconStyle={iconStyle}
+        style={fabBtnStyles}
       />
     </View>
   )

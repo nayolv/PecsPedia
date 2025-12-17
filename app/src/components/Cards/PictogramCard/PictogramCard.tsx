@@ -16,6 +16,7 @@ const DEFAULT_SIZE = (width / 4) - 20
 export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress, color = '#DDD', size }) => {
     const { imageUri, text } = pictogram
     const cardSize = size || DEFAULT_SIZE
+    console.log('Rendering PictogramCard:', imageUri)
 
     return (
         <TouchableOpacity

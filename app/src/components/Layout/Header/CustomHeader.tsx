@@ -7,9 +7,10 @@ interface CustomHeaderProps {
     showBackButton?: boolean;
     containerStyle?: StyleProp<ViewStyle>;
     titleStyle?: StyleProp<TextStyle>;
+    backIconName?: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
-export const CustomHeader = ({ title, showBackButton = true, containerStyle, titleStyle }: CustomHeaderProps) => {
+export const CustomHeader = ({ title, showBackButton = true, containerStyle, titleStyle, backIconName = "arrow-left-circle" }: CustomHeaderProps) => {
     const router = useRouter();
 
     return (
@@ -17,7 +18,7 @@ export const CustomHeader = ({ title, showBackButton = true, containerStyle, tit
             {showBackButton && (
                 <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
                     <MaterialCommunityIcons
-                        name="arrow-left-circle"
+                        name={backIconName}
                         size={35}
                         color="#fff"
                     />

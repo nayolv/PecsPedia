@@ -48,17 +48,14 @@ export const useFormPictogram = (params?: PictoFormProps) => {
         }
 
         if (pictoToEdit?.id) {
-            await updatePictogram(pictoData) // Ya espera la persistencia
+            await updatePictogram(pictoData)
             alert(`Pictograma "${text}" actualizado con éxito.`)
         } else {
-            await addPictogram(pictoData) // Ya espera la persistencia
+            await addPictogram(pictoData)
             alert(`Pictograma "${text}" agregado con éxito.`)
         }
 
-        // ⚠️ ELIMINAR ESTA LÍNEA. ES ELIMINADA DEBIDO A QUE YA NO ES NECESARIA POR LAS MODIFICACIONES DE LOS HOOKS ANTERIORES.
-        // await pictogramsSetter()
-
-        router.back() // El flujo espera aquí hasta que updatePictogram/addPictogram finaliza
+        router.back()
         clearStates()
     }
 

@@ -1,4 +1,4 @@
-export type TabKey = 'pictograms' | 'categories'
+export type TabKey = 'pictograms' | 'categories' | 'configuration'
 
 export const tabs = [
     {
@@ -8,5 +8,9 @@ export const tabs = [
     {
         key: 'categories',
         label: 'Categorías',
+    },
+    {
+        key: 'configuration',
+        label: 'Configuración',
     }
 ]

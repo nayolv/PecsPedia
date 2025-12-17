@@ -1,11 +1,11 @@
-import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton'
+import { BasicButton } from '@/app/src/components/Buttons/BasicButton/BasicButton'
 import { SearchBar } from '@/app/src/components/Inputs/SearchBar/SearchBar'
 import { PictogramList } from '@/app/src/components/Lists/PictogramList/PictogramList'
 import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/CustomPicker'
 import { StyleSheet, View } from 'react-native'
 import { usePictogramManagement } from '../hooks/usePictogramManagement'
 import { PictogramManagementProps, PictoParams } from '../models/managementModels'
-import { fabBtnStyles, iconStyle } from '../utils/stylesUtils'
+import { fabBtnStyles } from '../utils/stylesUtils'
 import { ListItem } from './Lists/ListItem'
 
 export const PictogramManagement = ({ pictograms, categories, onDelete }: PictogramManagementProps) => {
@@ -59,11 +59,11 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
                     />
                 }}
             />
-            <RoundedButton
+            <BasicButton
+                title="Crear"
                 onPress={onCreatePicto}
                 icon='plus'
-                btnStyle={fabBtnStyles}
-                iconStyle={iconStyle}
+                style={fabBtnStyles}
             />
         </View>
     )

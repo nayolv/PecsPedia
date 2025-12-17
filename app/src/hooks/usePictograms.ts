@@ -34,21 +34,17 @@ export const usePictograms = () => {
 
     const addPictogram = useCallback(async (newPicto: IPictogram) => {
         try {
-            // Read latest stored pictograms to avoid stale overwrites
             const stored = await AsyncStorage.getItem(PICTO_STORAGE_KEY)
             const currentList: IPictogram[] = stored ? JSON.parse(stored) : []
 
             const updatedList = [...currentList, newPicto]
 
-            // Update AsyncStorage first, then React state
             await AsyncStorage.setItem(PICTO_STORAGE_KEY, JSON.stringify(updatedList))
             setPictograms(updatedList)
         } catch (error) {
             console.error("Error al añadir y guardar pictograma:", error)
         }
     }, [])
-
-    // En usePictograms.ts
 
     const updatePictogram = useCallback(async (updatedPictogram: IPictogram) => {
         try {
