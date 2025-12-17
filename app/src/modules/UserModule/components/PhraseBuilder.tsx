@@ -1,4 +1,4 @@
-import { BasicButton } from '@/app/src/components/Buttons/BasicButton/BasicButton';
+import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton';
 import { IPictogram } from '@/app/src/types/PyctogramTypes';
 import { Image } from 'expo-image';
 import React from 'react';
@@ -16,12 +16,10 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
     return (
         <View style={styles.topSection}>
             <View style={styles.phraseWrapper}>
-                <BasicButton
+                <RoundedButton
                     icon='volume-high'
-                    title=""
-                    variant="primary"
-                    style={{ backgroundColor: "#444fb1ff", marginRight: 10, marginLeft: 10, minWidth: 60, paddingHorizontal: 10 }}
                     onPress={onSpeak}
+                    style={{ backgroundColor: '#818fdbff', marginHorizontal: 10 }}
                 />
                 <View style={styles.phraseContainer}>
                     <ScrollView horizontal contentContainerStyle={styles.phraseScrollContent} showsHorizontalScrollIndicator={false}>
@@ -36,12 +34,10 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
                         )}
                     </ScrollView>
                 </View>
-                <BasicButton
+                <RoundedButton
                     icon='trash-can'
-                    title=""
-                    variant="danger"
-                    style={{ backgroundColor: "#cf4e4eff", marginRight: 10, marginLeft: 10, minWidth: 60, paddingHorizontal: 10 }}
                     onPress={onClear}
+                    style={{ backgroundColor: '#E57373', marginHorizontal: 10 }}
                 />
 
             </View>

@@ -1,4 +1,4 @@
-import { BasicButton } from '@/app/src/components/Buttons/BasicButton/BasicButton'
+import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton'
 import { SearchBar } from '@/app/src/components/Inputs/SearchBar/SearchBar'
 import { PictogramList } from '@/app/src/components/Lists/PictogramList/PictogramList'
 import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/CustomPicker'
@@ -59,11 +59,10 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
                     />
                 }}
             />
-            <BasicButton
-                title="Crear"
-                onPress={onCreatePicto}
+            <RoundedButton
                 icon='plus'
                 style={fabBtnStyles}
+                onPress={onCreatePicto}
             />
         </View>
     )

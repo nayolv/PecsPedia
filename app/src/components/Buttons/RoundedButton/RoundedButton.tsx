@@ -10,10 +10,10 @@ interface RoundedButtonProps extends TouchableOpacityProps {
     icon?: IconName
 }
 
-export const RoundedButton = ({ icon = 'human-child', iconStyle, btnStyle, ...rest }: RoundedButtonProps) => {
+export const RoundedButton = ({ icon = 'human-child', iconStyle, btnStyle, style, ...rest }: RoundedButtonProps) => {
     return (
         <TouchableOpacity
-            style={[styles.button, { ...btnStyle }]}
+            style={[styles.button, btnStyle, style]}
             {...rest}
         >
             <Text style={styles.text}>

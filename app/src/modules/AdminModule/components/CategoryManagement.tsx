@@ -1,4 +1,4 @@
-import { BasicButton } from "@/app/src/components/Buttons/BasicButton/BasicButton"
+import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton"
 import { SearchBar } from "@/app/src/components/Inputs/SearchBar/SearchBar"
 import { useDynamicColumns } from "@/app/src/hooks/useDynamicColumns"
 import { useNavigate } from "@/app/src/hooks/useNavigate"
@@ -57,11 +57,10 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
           />
         }}
       />
-      <BasicButton
-        title="Crear"
-        onPress={() => navigate(childRoutes.createCategory, { categories: JSON.stringify(categories) })}
+      <RoundedButton
         icon='plus'
         style={fabBtnStyles}
+        onPress={() => navigate(childRoutes.createCategory, { categories: JSON.stringify(categories) })}
       />
     </View>
   )

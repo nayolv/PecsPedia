@@ -11,10 +11,14 @@ import { PictogramManagement } from './components/PictogramManagement'
 import { PinEntry } from './components/PinEntry'
 import { TabKey, tabs } from './utils/tabs'
 
-export const AdminModule = () => {
+interface AdminModuleProps {
+    initialVerified?: boolean
+}
+
+export const AdminModule = ({ initialVerified = false }: AdminModuleProps) => {
     const { activeTab, handleActiveTab } = useTabs<TabKey>('pictograms')
     const { hasPin, isLoading: isLoadingPin } = useAdminPin()
-    const [isVerified, setIsVerified] = useState(false)
+    const [isVerified, setIsVerified] = useState(initialVerified)
     const {
         isLoading,
         pictograms,

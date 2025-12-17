@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router'
 import { useState } from 'react'
 import { Alert, Modal, StyleSheet, Text, TextInput, View } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { BasicButton } from './src/components/Buttons/BasicButton/BasicButton'
 import { ProfileCard } from './src/components/Cards/ProfileCard/ProfileCard'
 import { CustomHeader } from './src/components/Layout/Header/CustomHeader'
@@ -29,7 +30,7 @@ export default function IndexScreen() {
     if (verifyPin(inputPin)) {
       setIsModalVisible(false)
       setInputPin('')
-      navigate(baseRoutes.admin)
+      navigate(baseRoutes.admin, { verified: 'true' })
     } else {
       Alert.alert('Error', 'PIN incorrecto')
       setInputPin('')
@@ -60,14 +61,19 @@ export default function IndexScreen() {
         </View>
 
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={isModalVisible}
           onRequestClose={() => setIsModalVisible(false)}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Ingrese PIN de Administrador</Text>
+              <View style={styles.iconContainer}>
+                <MaterialCommunityIcons name="shield-lock-outline" size={48} color="#008080" />
+              </View>
+              <Text style={styles.modalTitle}>Acceso Administrativo</Text>
+              <Text style={styles.modalSubtitle}>Ingrese su PIN de 4 dígitos</Text>
+              
               <TextInput
                 style={styles.modalInput}
                 value={inputPin}
@@ -76,22 +82,26 @@ export default function IndexScreen() {
                 secureTextEntry
                 maxLength={6}
                 autoFocus
+                placeholder="••••"
+                placeholderTextColor="#CBD5E1"
+                selectionColor="#008080"
               />
+              
               <View style={styles.modalButtons}>
                 <BasicButton
                   title="Cancelar"
-                  variant="danger"
+                  variant="secondary"
                   onPress={() => {
                     setIsModalVisible(false)
                     setInputPin('')
                   }}
-                  style={{ width: 120 }}
+                  style={styles.cancelButton}
                 />
                 <BasicButton
                   title="Acceder"
                   variant="primary"
                   onPress={handlePinSubmit}
-                  style={{ width: 120, backgroundColor: '#4CAF50' }}
+                  style={styles.accessButton}
                 />
               </View>
             </View>
@@ -119,46 +129,72 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'rgba(0,0,0,0.5)'
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    backdropFilter: 'blur(5px)', // Works on web/some versions
   },
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 24,
+    padding: 32,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 10
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: '80%'
+    shadowRadius: 10,
+    elevation: 10,
+    width: '90%',
+    maxWidth: 400,
   },
-  modalText: {
-    marginBottom: 15,
+  iconContainer: {
+    backgroundColor: '#E0F2F1',
+    padding: 16,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  modalTitle: {
+    marginBottom: 8,
     textAlign: "center",
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#1F2937',
+  },
+  modalSubtitle: {
+    marginBottom: 24,
+    textAlign: "center",
+    fontSize: 16,
+    color: '#6B7280',
   },
   modalInput: {
-    height: 50,
+    height: 60,
     width: '100%',
-    borderColor: '#ddd',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 20,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 16,
+    marginBottom: 24,
     paddingHorizontal: 15,
-    fontSize: 24,
+    fontSize: 28,
     textAlign: 'center',
-    letterSpacing: 5
+    letterSpacing: 8,
+    fontWeight: '600',
+    color: '#1F2937',
+    borderWidth: 2,
+    borderColor: 'transparent',
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    gap: 10
+    gap: 12,
+  },
+  cancelButton: {
+    flex: 1,
+    backgroundColor: '#EF4444',
+  },
+  accessButton: {
+    flex: 1,
+    backgroundColor: '#008080',
   }
 })

@@ -1,10 +1,11 @@
-import { Stack, useRouter } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { StyleSheet } from 'react-native'
 import { AdminModule } from './src/modules/AdminModule/AdminModule'
 import { HeaderAdmin } from './src/modules/AdminModule/components/HeaderAdmin/HeaderAdmin'
 
 export default function AdminScreen() {
   const router = useRouter()
+  const { verified } = useLocalSearchParams<{ verified: string }>()
 
   return (
     <>
@@ -13,7 +14,7 @@ export default function AdminScreen() {
           header: () => <HeaderAdmin title="Administrador" />,
         }}
       />
-      <AdminModule />
+      <AdminModule initialVerified={verified === 'true'} />
     </>
   )
 }
