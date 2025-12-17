@@ -2,8 +2,9 @@ import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/Custom
 import { useFormPictogram } from '@/app/src/hooks/useFormPictogram'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import { useLocalSearchParams } from 'expo-router'
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { PictoParams } from '../../models/managementModels'
+import { ImageUploader } from './ImageUploader'
 import { formStyles } from './styles'
 
 export const PictoForm = ({ }) => {
@@ -45,17 +46,7 @@ export const PictoForm = ({ }) => {
         containerStyle={formStyles.pickerContainer}
       />
       <Text style={formStyles.label}>Imagen/Ícono</Text>
-      <View style={formStyles.imageUploadContainer}>
-        <TouchableOpacity
-          style={formStyles.imagePlaceholder}
-          onPress={pickImage}>
-          {imageUri ? (
-            <Image source={{ uri: imageUri }} style={formStyles.previewImage} />
-          ) : (
-            <Text style={formStyles.imageText}>Click para Subir Imagen</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      <ImageUploader imageUri={imageUri} onPress={pickImage} />
       <TouchableOpacity
         style={formStyles.saveButton}
         onPress={handleSave}

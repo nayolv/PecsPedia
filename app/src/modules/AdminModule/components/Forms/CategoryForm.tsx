@@ -3,8 +3,9 @@ import { ColorSelector } from '@/app/src/components/Selectors/ColorSelector/Colo
 import { useFormCategory } from '@/app/src/hooks/useFormCategory'
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
 import { useLocalSearchParams } from 'expo-router'
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
 import { CatParams } from '../../models/managementModels'
+import { ImageUploader } from './ImageUploader'
 import { formStyles } from './styles'
 
 interface PictoSelectorProps { picto: any, isSelected: boolean, onSelect: () => void }
@@ -55,17 +56,7 @@ export const CategoryForm: React.FC = () => {
             <ColorSelector selectedColor={color} onPress={colorSetter} />
 
             <Text style={formStyles.label}>Imagen de la Categoría</Text>
-            <View style={formStyles.imageUploadContainer}>
-                <TouchableOpacity
-                    style={formStyles.imagePlaceholder}
-                    onPress={pickImage}>
-                    {imageUri ? (
-                        <Image source={{ uri: imageUri }} style={formStyles.previewImage} />
-                    ) : (
-                        <Text style={formStyles.imageText}>Click para Subir Imagen</Text>
-                    )}
-                </TouchableOpacity>
-            </View>
+            <ImageUploader imageUri={imageUri} onPress={pickImage} />
 
             {parsedPictograms?.length ?
                 <>

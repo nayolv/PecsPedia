@@ -1,32 +1,26 @@
 import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton"
 import { SearchBar } from "@/app/src/components/Inputs/SearchBar/SearchBar"
-import { useDynamicColumns } from "@/app/src/hooks/useDynamicColumns"
-import { useNavigate } from "@/app/src/hooks/useNavigate"
-import { childRoutes } from "@/app/src/router/routes"
-import { useMemo, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
+import { useCategoryManagement } from "../hooks/useCategoryManagement"
 import { CategoryManagementProps, CatParams } from "../models/managementModels"
 import { fabBtnStyles } from "../utils/stylesUtils"
 import { ListItem } from "./Lists/ListItem"
 
 export const CategoryManagement = ({ categories, pictograms, onDelete }: CategoryManagementProps) => {
-  const navigate = useNavigate()
-  const { numColumns } = useDynamicColumns()
-  const [searchQuery, setSearchQuery] = useState('')
+  const {
+    searchQuery,
+    setSearchQuery,
+    filteredCategories,
+    onUpdateCat,
+    onCreateCat,
+    numColumns
+  } = useCategoryManagement(categories)
 
-  const filteredCategories = useMemo(() => categories.filter(cat =>
-    cat.name.toLowerCase().includes(searchQuery.toLowerCase())
-  ), [categories, searchQuery])
-
-  const onUpdateCat = (params: CatParams) => {
-    const inputParams: { [key: string]: any } = { ...params };
-    navigate(childRoutes.createCategory, inputParams);
-  }
   return (
     <View style={styles.container}>
       <View style={styles.filtersContainer}>
         <SearchBar
-          style={{ width: '30%' }}
+          style={styles.searchBar}
           value={searchQuery}
           onChangeText={setSearchQuery}
           placeholder="Buscar categorías..."
@@ -60,7 +54,7 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
       <RoundedButton
         icon='plus'
         style={fabBtnStyles}
-        onPress={() => navigate(childRoutes.createCategory, { categories: JSON.stringify(categories) })}
+        onPress={onCreateCat}
       />
     </View>
   )
@@ -75,5 +69,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 10,
+    paddingHorizontal: 10,
   },
+  searchBar: {
+    width: 300,
+    marginBottom: 0
+  }
 })
