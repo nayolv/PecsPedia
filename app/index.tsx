@@ -1,7 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { Stack } from 'expo-router'
 import { useState } from 'react'
 import { Alert, Modal, StyleSheet, Text, TextInput, View } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { BasicButton } from './src/components/Buttons/BasicButton/BasicButton'
 import { ProfileCard } from './src/components/Cards/ProfileCard/ProfileCard'
 import { CustomHeader } from './src/components/Layout/Header/CustomHeader'
@@ -9,7 +9,7 @@ import { useAdminPin } from './src/hooks/useAdminPin'
 import { useNavigate } from './src/hooks/useNavigate'
 import { baseRoutes } from './src/router/routes'
 
-export default function IndexScreen() {
+function MainScreen() {
   const navigate = useNavigate()
   const { hasPin, verifyPin } = useAdminPin()
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -59,7 +59,6 @@ export default function IndexScreen() {
             onClick={handleAdminClick}
           />
         </View>
-
         <Modal
           animationType="fade"
           transparent={true}
@@ -73,7 +72,6 @@ export default function IndexScreen() {
               </View>
               <Text style={styles.modalTitle}>Acceso Administrativo</Text>
               <Text style={styles.modalSubtitle}>Ingrese su PIN de 4 dígitos</Text>
-              
               <TextInput
                 style={styles.modalInput}
                 value={inputPin}
@@ -86,7 +84,6 @@ export default function IndexScreen() {
                 placeholderTextColor="#CBD5E1"
                 selectionColor="#008080"
               />
-              
               <View style={styles.modalButtons}>
                 <BasicButton
                   title="Cancelar"
@@ -112,6 +109,10 @@ export default function IndexScreen() {
   )
 }
 
+export default function IndexScreen() {
+  return <MainScreen />;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: 'rgba(0,0,0,0.6)',
-    backdropFilter: 'blur(5px)', // Works on web/some versions
+    backdropFilter: 'blur(5px)',
   },
   modalView: {
     margin: 20,

@@ -1,10 +1,12 @@
 import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton"
 import { SearchBar } from "@/app/src/components/Inputs/SearchBar/SearchBar"
-import { FlatList, StyleSheet, View } from "react-native"
+import { Alert, FlatList, StyleSheet, View } from "react-native"
 import { useCategoryManagement } from "../hooks/useCategoryManagement"
 import { CategoryManagementProps, CatParams } from "../models/managementModels"
 import { fabBtnStyles } from "../utils/stylesUtils"
 import { ListItem } from "./Lists/ListItem"
+
+const TODOS_CATEGORY_ID = 'todos';
 
 export const CategoryManagement = ({ categories, pictograms, onDelete }: CategoryManagementProps) => {
   const {
@@ -15,6 +17,18 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
     onCreateCat,
     numColumns
   } = useCategoryManagement(categories)
+
+  const handleDeleteCategory = (categoryId: string) => {
+    if (categoryId === TODOS_CATEGORY_ID) {
+      Alert.alert(
+        'No se puede eliminar',
+        'La categoría "Todos" es obligatoria y no puede ser eliminada.',
+        [{ text: 'OK', onPress: () => { } }]
+      );
+      return;
+    }
+    onDelete(categoryId);
+  }
 
   return (
     <View style={styles.container}>
@@ -47,7 +61,7 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
             imageUri={item.imageUri}
             columns={numColumns}
             onUpdate={() => onUpdateCat(params)}
-            onDelete={() => onDelete(item.id)}
+            onDelete={() => handleDeleteCategory(item.id)}
           />
         }}
       />

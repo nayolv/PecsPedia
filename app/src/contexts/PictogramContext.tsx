@@ -17,7 +17,7 @@ interface PictogramContextShape {
 const PictogramContext = createContext<PictogramContextShape | undefined>(undefined)
 
 export const PictogramProvider = ({ children }: { children: ReactNode }) => {
-    const hook = usePictograms()
+    const hook = usePictograms();
 
     const value = useMemo(() => ({
         isLoading: hook.isLoading,
@@ -39,13 +39,13 @@ export const PictogramProvider = ({ children }: { children: ReactNode }) => {
         hook.addPictoToPhrase,
         hook.clearPhrase,
         hook.pictogramsSetter
-    ])
+    ]);
 
     return (
         <PictogramContext.Provider value={value}>
             {children}
         </PictogramContext.Provider>
-    )
+    );
 }
 
 export const usePictogramContext = () => {

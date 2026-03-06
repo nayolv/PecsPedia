@@ -3,10 +3,12 @@ import { ColorSelector } from '@/app/src/components/Selectors/ColorSelector/Colo
 import { useFormCategory } from '@/app/src/hooks/useFormCategory'
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
 import { useLocalSearchParams } from 'expo-router'
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { CatParams } from '../../models/managementModels'
 import { ImageUploader } from './ImageUploader'
 import { formStyles } from './styles'
+
+const TODOS_CATEGORY_ID = 'todos';
 
 interface PictoSelectorProps { picto: any, isSelected: boolean, onSelect: () => void }
 
@@ -27,6 +29,7 @@ export const CategoryForm: React.FC = () => {
     const params = useLocalSearchParams() as unknown as CatParams || {}
     const { category, pictograms } = params || {}
     const parsedCat = category ? JSON.parse(category) : {}
+    const isTodosCategory = parsedCat?.id === TODOS_CATEGORY_ID;
     const title = parsedCat?.id ? 'Editar Categoría' : 'Crear Nueva Categoría'
     const parsedPictograms: IPictogram[] = pictograms ? JSON.parse(pictograms) : []
 
@@ -40,6 +43,17 @@ export const CategoryForm: React.FC = () => {
         pickImage,
         handleSave,
     } = useFormCategory({ ...params, category: parsedCat, pictograms: parsedPictograms })
+
+    if (isTodosCategory) {
+        return (
+            <ScrollView contentContainerStyle={formStyles.formContainer}>
+                <View style={styles.alertBox}>
+                    <Text style={styles.alertText}>⚠️ Esta es la categoría "Todos", que es obligatoria del sistema.</Text>
+                    <Text style={styles.alertText}>No puede ser modificada ni eliminada.</Text>
+                </View>
+            </ScrollView>
+        )
+    }
 
     return (
         <ScrollView contentContainerStyle={formStyles.formContainer}>
@@ -111,5 +125,18 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: 'center',
     },
-
+    alertBox: {
+        backgroundColor: '#FFF3CD',
+        padding: 15,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#FFEeba',
+        marginBottom: 20,
+    },
+    alertText: {
+        color: '#856404',
+        fontSize: 14,
+        fontWeight: '600',
+        marginVertical: 5,
+    }
 })

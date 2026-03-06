@@ -4,6 +4,8 @@ import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
 
+const TODOS_CATEGORY_ID = 'todos';
+
 interface PictoFormProps {
     categories: ICategory[]
     picto: IPictogram
@@ -39,11 +41,16 @@ export const useFormPictogram = (params?: PictoFormProps) => {
 
         const id = pictoToEdit?.id || `picto-${new Date().getTime().toString()}`
 
+        // Siempre incluir "todos", más la categoría seleccionada si es diferente
+        const categoryIds = selectedCategory === TODOS_CATEGORY_ID
+            ? [TODOS_CATEGORY_ID]
+            : [TODOS_CATEGORY_ID, selectedCategory];
+
         const pictoData: IPictogram = {
             id: pictoToEdit?.id || id,
             text: text.trim(),
             imageUri: imageUri || 'https://via.placeholder.com/150',
-            categoryIds: [selectedCategory],
+            categoryIds: categoryIds,
             audioUri: undefined,
         }
 
@@ -75,7 +82,10 @@ export const useFormPictogram = (params?: PictoFormProps) => {
     const pictoToUpdateSetter = useCallback(() => {
         if (pictoToEdit) {
             textSetter(pictoToEdit?.text)
-            categorySetter(pictoToEdit?.categoryIds[0])
+            // Si el pictograma tiene "todos", mostrar "todos" como seleccionado
+            // Si tiene múltiples categorías, mostrar la que no sea "todos"
+            const nonTodosCategory = pictoToEdit?.categoryIds.find(id => id !== TODOS_CATEGORY_ID);
+            categorySetter(nonTodosCategory || TODOS_CATEGORY_ID)
             imageSetter(pictoToEdit?.imageUri)
         }
     }, [pictoToEdit])
