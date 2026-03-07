@@ -2,6 +2,7 @@
 import { ColorSelector } from '@/app/src/components/Selectors/ColorSelector/ColorSelector'
 import { useFormCategory } from '@/app/src/hooks/useFormCategory'
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
+import { getImageSource } from '@/app/src/utils/imageResolver'
 import { useLocalSearchParams } from 'expo-router'
 import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { CatParams } from '../../models/managementModels'
@@ -18,7 +19,7 @@ const PictoIconSelector = ({ picto, isSelected, onSelect }: PictoSelectorProps) 
         onPress={onSelect}
     >
         <Image
-            source={{ uri: picto.imageUri || 'https://via.placeholder.com/150' }}
+            source={getImageSource(picto.imageUri)}
             style={styles.image}
         />
         <Text style={styles.text} numberOfLines={1}>{picto.text}</Text>

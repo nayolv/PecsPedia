@@ -1,4 +1,5 @@
 import { useCategoryContext } from '@/app/src/contexts/CategoryContext'
+import { LOCAL_IMAGE_PREFIX } from '@/app/src/utils/imageResolver'
 import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from "expo-router"
 import { useCallback, useEffect, useState } from "react"
@@ -57,7 +58,7 @@ export const useFormCategory = (params?: CatFormProps) => {
             id,
             name: name.trim(),
             color: color.toUpperCase(),
-            imageUri: imageUri || '',
+            imageUri: imageUri || `${LOCAL_IMAGE_PREFIX}default_cat`,
         }
 
         if (catToEdit?.id) {

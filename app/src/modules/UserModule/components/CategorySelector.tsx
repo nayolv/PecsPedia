@@ -1,4 +1,5 @@
 import { ICategory } from '@/app/src/types/PyctogramTypes';
+import { getImageSource } from '@/app/src/utils/imageResolver';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React from 'react';
@@ -48,7 +49,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, 
                                         borderColor: cat.color,
                                     }]}>
                                 {cat.imageUri ? (
-                                    <Image source={{ uri: cat.imageUri }} style={styles.categoryImage} contentFit="cover" />
+                                    <Image source={getImageSource(cat.imageUri)} style={styles.categoryImage} contentFit="cover" />
                                 ) : (
                                     <Text style={{ fontSize: 10 }}>{cat.name.substring(0, 2)}</Text>
                                 )}

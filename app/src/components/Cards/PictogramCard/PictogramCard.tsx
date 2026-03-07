@@ -1,4 +1,5 @@
 import { IPictogram } from '@/app/src/types/PyctogramTypes'
+import { getImageSource } from '@/app/src/utils/imageResolver'
 import { Image } from 'expo-image'
 import React from 'react'
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -24,7 +25,7 @@ export const PictogramCard: React.FC<PictogramCardProps> = ({ pictogram, onPress
             onPress={() => onPress(pictogram)}
         >
             <View style={[styles.imageWrapper, { height: cardSize * 0.75 }]}>
-                <Image style={styles.image} source={{ uri: imageUri }} contentFit="contain" />
+                <Image style={styles.image} source={getImageSource(imageUri)} contentFit="contain" />
             </View>
             <Text style={styles.textLabel} numberOfLines={1}>
                 {text?.toUpperCase()}

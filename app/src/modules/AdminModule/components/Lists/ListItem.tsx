@@ -1,4 +1,5 @@
 import { RoundedButton } from "@/app/src/components/Buttons/RoundedButton/RoundedButton";
+import { getImageSource } from "@/app/src/utils/imageResolver";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, Text, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -52,7 +53,7 @@ export const ListItem = ({
             <View style={styles.infoContainer}>
                 <View style={[styles.imgWrapper, { borderColor: color }]}>
                     {imageUri ?
-                        <Image style={styles.image} source={{ uri: imageUri }} contentFit="contain" />
+                        <Image style={styles.image} source={getImageSource(imageUri)} contentFit="contain" />
                         :
                         <Text style={styles.noImageIcon}>🖼️</Text>
                     }

@@ -1,5 +1,6 @@
 import { usePictogramContext } from '@/app/src/contexts/PictogramContext'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
+import { LOCAL_IMAGE_PREFIX } from '@/app/src/utils/imageResolver'
 import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
@@ -41,7 +42,6 @@ export const useFormPictogram = (params?: PictoFormProps) => {
 
         const id = pictoToEdit?.id || `picto-${new Date().getTime().toString()}`
 
-        // Siempre incluir "todos", más la categoría seleccionada si es diferente
         const categoryIds = selectedCategory === TODOS_CATEGORY_ID
             ? [TODOS_CATEGORY_ID]
             : [TODOS_CATEGORY_ID, selectedCategory];
@@ -49,7 +49,7 @@ export const useFormPictogram = (params?: PictoFormProps) => {
         const pictoData: IPictogram = {
             id: pictoToEdit?.id || id,
             text: text.trim(),
-            imageUri: imageUri || 'https://via.placeholder.com/150',
+            imageUri: imageUri || `${LOCAL_IMAGE_PREFIX}default_img`,
             categoryIds: categoryIds,
             audioUri: undefined,
         }

@@ -1,5 +1,6 @@
 import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton';
 import { IPictogram } from '@/app/src/types/PyctogramTypes';
+import { getImageSource } from '@/app/src/utils/imageResolver';
 import { Image } from 'expo-image';
 import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -13,6 +14,7 @@ interface PhraseBuilderProps {
 }
 
 export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) => {
+
     return (
         <View style={styles.topSection}>
             <View style={styles.phraseWrapper}>
@@ -28,7 +30,7 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
                         ) : (
                             phrase.map((picto, index) => (
                                 <View key={`${picto.id}-${index}`} style={styles.phraseItem}>
-                                    <Image source={{ uri: picto.imageUri }} style={styles.phraseImage} contentFit="contain" />
+                                    <Image source={getImageSource(picto.imageUri)} style={styles.phraseImage} contentFit="contain" />
                                 </View>
                             ))
                         )}

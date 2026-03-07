@@ -1,3 +1,4 @@
+import { getImageSource } from '@/app/src/utils/imageResolver'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { formStyles } from './styles'
 
@@ -13,7 +14,7 @@ export const ImageUploader = ({ imageUri, onPress }: ImageUploaderProps) => {
                 style={formStyles.imagePlaceholder}
                 onPress={onPress}>
                 {imageUri ? (
-                    <Image source={{ uri: imageUri }} style={formStyles.previewImage} />
+                    <Image source={getImageSource(imageUri)} style={formStyles.previewImage} />
                 ) : (
                     <Text style={formStyles.imageText}>Click para Subir Imagen</Text>
                 )}
