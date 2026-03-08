@@ -1,13 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCallback, useEffect, useState } from 'react';
-import { ICategory } from '../types/PyctogramTypes';
-import { CATEGORY_STORAGE_KEY } from '../utils/consts';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useCallback, useEffect, useState } from 'react'
+import { ICategory } from '../types/PyctogramTypes'
+import { CATEGORY_STORAGE_KEY } from '../utils/consts'
+import { LOCAL_IMAGE_PREFIX } from '../utils/imageResolver'
 
 const initialCategories: ICategory[] = [
-    { id: 'cat-1', name: 'Acciones', color: '#FFDAB9', imageUri: '' },
-    { id: 'cat-2', name: 'Personas', color: '#ADD8E6', imageUri: '' },
-    { id: 'cat-3', name: 'Sentimientos', color: '#98FB98', imageUri: '' },
-];
+    { id: 'cat-1', name: 'Acciones', color: '#FFDAB9', imageUri: `${LOCAL_IMAGE_PREFIX}default_cat` },
+    { id: 'cat-2', name: 'Personas', color: '#ADD8E6', imageUri: `${LOCAL_IMAGE_PREFIX}default_cat` },
+    { id: 'cat-3', name: 'Sentimientos', color: '#98FB98', imageUri: `${LOCAL_IMAGE_PREFIX}default_cat` },
+]
 
 export const useCategories = () => {
     const [categories, setCategories] = useState<ICategory[]>([])

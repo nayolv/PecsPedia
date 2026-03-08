@@ -1,31 +1,15 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 interface CustomHeaderProps {
     title: string;
-    showBackButton?: boolean;
     containerStyle?: StyleProp<ViewStyle>;
     titleStyle?: StyleProp<TextStyle>;
-    backIconName?: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
-export const CustomHeader = ({ title, showBackButton = true, containerStyle, titleStyle, backIconName = "arrow-left-circle" }: CustomHeaderProps) => {
-    const router = useRouter();
-
+export const CustomHeader = ({ title, containerStyle, titleStyle }: CustomHeaderProps) => {
     return (
         <View style={[styles.headerContainer, containerStyle]}>
-            {showBackButton && (
-                <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                    <MaterialCommunityIcons
-                        name={backIconName}
-                        size={35}
-                        color="#fff"
-                    />
-                </TouchableOpacity>
-            )}
             <Text style={[styles.titleText, titleStyle]}>{title?.toUpperCase()}</Text>
-            {showBackButton && <View style={styles.placeholder} />}
         </View>
     );
 };
@@ -54,11 +38,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flex: 1,
     },
-    backButton: {
-        padding: 5,
-        zIndex: 1,
-    },
-    placeholder: {
-        width: 40,
-    }
+
 });

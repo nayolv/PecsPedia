@@ -11,11 +11,38 @@ interface CategorySelectorProps {
     categories: ICategory[];
     selectedCategoryId: string | null;
     onSelectCategory: (id: string | null) => void;
+    isExpanded: boolean;
+    onToggle: () => void;
 }
 
-export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, selectedCategoryId, onSelectCategory }) => {
+export const CategorySelector: React.FC<CategorySelectorProps> = ({
+    categories,
+    selectedCategoryId,
+    onSelectCategory,
+    isExpanded,
+    onToggle
+}) => {
+    if (!isExpanded) {
+        return (
+            <View style={styles.fabContainer}>
+                <TouchableOpacity
+                    style={styles.fab}
+                    onPress={onToggle}
+                >
+                    <Ionicons name="grid" size={28} color="#FFF" />
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.closeButton}
+                onPress={onToggle}
+            >
+                <Ionicons name="close" size={24} color="#FFF" />
+            </TouchableOpacity>
             <View style={styles.categoriesWrapper}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesScroll}>
                     <TouchableOpacity
@@ -60,14 +87,50 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ categories, 
                 </ScrollView>
             </View>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
         width: '100%',
         alignItems: 'center',
         paddingBottom: 10,
+    },
+    fabContainer: {
+        position: 'absolute',
+        bottom: 50,
+        right: 20,
+        zIndex: 10,
+    },
+    fab: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        backgroundColor: '#6BAABB',
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: -15,
+        right: 10,
+        zIndex: 15,
+        backgroundColor: '#E74C3C',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     categoriesWrapper: {
         width: '90%',
@@ -114,4 +177,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#333',
     },
-});
+})

@@ -11,6 +11,7 @@ export const UserModule: React.FC = () => {
     const { loadData, pictograms, categories, phrase, addPictoToPhrase, clearPhrase, isLoading } = useDataHandler();
     const { speakPhrase } = useSpeech();
     const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+    const [showCategories, setShowCategories] = useState(false);
 
     useEffect(() => {
         loadData()
@@ -44,6 +45,8 @@ export const UserModule: React.FC = () => {
                 categories={categories}
                 selectedCategoryId={selectedCategoryId}
                 onSelectCategory={setSelectedCategoryId}
+                isExpanded={showCategories}
+                onToggle={() => setShowCategories(!showCategories)}
             />
         </SafeAreaView>
     )

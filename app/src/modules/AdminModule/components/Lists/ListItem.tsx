@@ -3,6 +3,7 @@ import { getImageSource } from "@/app/src/utils/imageResolver";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, Text, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface PictoListItemProps {
     columns?: number
@@ -46,7 +47,9 @@ export const ListItem = ({
     onDelete,
 }: PictoListItemProps) => {
     const { width } = useWindowDimensions()
-    const CARD_SIZE = (width / columns) - 20
+    const insets = useSafeAreaInsets()
+    const availableWidth = width - insets.left - insets.right
+    const CARD_SIZE = (availableWidth / columns) - 20
 
     return (
         <View style={[styles.listItem, { width: CARD_SIZE }]}>
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
     actionWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 50
+        width: 50,
+        top: -10,
     }
 
 })

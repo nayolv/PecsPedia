@@ -21,7 +21,7 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
                 <RoundedButton
                     icon='trash-can'
                     onPress={onClear}
-                    style={{ backgroundColor: '#9e1414', marginHorizontal: 10 }}
+                    style={{ backgroundColor: '#E74C3C', marginHorizontal: 10 }}
                 />
                 <View style={styles.phraseContainer}>
                     <ScrollView horizontal contentContainerStyle={styles.phraseScrollContent} showsHorizontalScrollIndicator={false}>

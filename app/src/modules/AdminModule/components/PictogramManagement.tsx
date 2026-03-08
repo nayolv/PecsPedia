@@ -1,8 +1,8 @@
 import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton'
-import { SearchBar } from '@/app/src/components/Inputs/SearchBar/SearchBar'
+import { CollapsibleSearchBar } from '@/app/src/components/Inputs/SearchBar/CollapsibleSearchBar'
 import { PictogramList } from '@/app/src/components/Lists/PictogramList/PictogramList'
-import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/CustomPicker'
-import { StyleSheet, View } from 'react-native'
+import { CollapsibleCategoryPicker } from '@/app/src/components/Selectors/CustomPicker/CollapsibleCategoryPicker'
+import { StyleSheet, Text, View } from 'react-native'
 import { usePictogramManagement } from '../hooks/usePictogramManagement'
 import { PictogramManagementProps, PictoParams } from '../models/managementModels'
 import { fabBtnStyles } from '../utils/stylesUtils'
@@ -24,13 +24,13 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
     return (
         <View style={styles.container}>
             <View style={styles.filtersContainer}>
-                <CustomPicker
+                <Text>Pictogramas</Text>
+                <CollapsibleCategoryPicker
                     selectedValue={selectedCategory}
                     onValueChange={(itemValue) => setSelectedCategory(itemValue)}
                     items={pickerItems}
-                    containerStyle={styles.pickerContainer}
                 />
-                <SearchBar
+                <CollapsibleSearchBar
                     style={styles.searchBar}
                     placeholder="Buscar pictogramas..."
                     value={searchQuery}
@@ -71,7 +71,6 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 20,
     },
     filtersContainer: {
         flexDirection: 'row',
@@ -79,12 +78,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 10,
         marginBottom: 10,
+        gap: 10,
+        minHeight: 60,
     },
     searchBar: {
-        width: 300,
         marginBottom: 0
-    },
-    pickerContainer: {
-        width: 250,
     },
 })

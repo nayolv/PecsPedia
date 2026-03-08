@@ -58,6 +58,7 @@ export const ConfigurationManagement = () => {
                     <View style={styles.formContainer}>
                         {hasPin && <Text style={styles.statusText}>✅ PIN configurado actualmente</Text>}
 
+
                         <View style={styles.row}>
                             <View style={styles.inputContainer}>
                                 <TextInput
@@ -179,5 +180,25 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%',
-    }
+    },
+    warningAlert: {
+        backgroundColor: '#FFF3E0',
+        borderLeftWidth: 4,
+        borderLeftColor: '#FF9800',
+        padding: 15,
+        borderRadius: 8,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 12,
+    },
+    warningText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#FF9800',
+    },
+    warningSubtext: {
+        fontSize: 13,
+        color: '#E65100',
+        marginTop: 4,
+    },
 })

@@ -1,22 +1,47 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { BasicLoader } from '../../components/Loaders/BasicLoader'
-import { Tab } from '../../components/Tabs/Tab'
+import { MenuItem } from '../../components/Navigation/BurgerMenu/BurgerMenu'
 import { useAdminPin } from '../../hooks/useAdminPin'
 import { useDataHandler } from '../../hooks/useDataHandler'
-import { useTabs } from '../../hooks/useTabs'
 import { CategoryManagement } from './components/CategoryManagement'
 import { ConfigurationManagement } from './components/ConfigurationManagement'
 import { PictogramManagement } from './components/PictogramManagement'
 import { PinEntry } from './components/PinEntry'
-import { TabKey, tabs } from './utils/tabs'
+
+export type TabKey = 'pictograms' | 'categories' | 'configuration'
+
+export const menuItems: MenuItem[] = [
+    {
+        key: 'pictograms',
+        label: 'Pictogramas',
+        icon: '🖼️',
+    },
+    {
+        key: 'categories',
+        label: 'Categorías',
+        icon: '📂',
+    },
+    {
+        key: 'configuration',
+        label: 'Configuración',
+        icon: '⚙️',
+    },
+]
 
 interface AdminModuleProps {
     initialVerified?: boolean
+    activeTab?: TabKey
+    onMenuStateChange?: (activeTab: TabKey) => void
 }
 
-export const AdminModule = ({ initialVerified = false }: AdminModuleProps) => {
-    const { activeTab, handleActiveTab } = useTabs<TabKey>('pictograms')
+export const AdminModule = ({
+    initialVerified = false,
+    activeTab = 'pictograms',
+    onMenuStateChange
+}: AdminModuleProps) => {
     const { hasPin, isLoading: isLoadingPin } = useAdminPin()
     const [isVerified, setIsVerified] = useState(initialVerified)
     const {
@@ -34,48 +59,36 @@ export const AdminModule = ({ initialVerified = false }: AdminModuleProps) => {
     }
 
     return (
-        <View style={styles.container}>
-            {!hasPin && (
-                <TouchableOpacity
-                    style={styles.alertContainer}
-                    onPress={() => handleActiveTab('configuration')}
-                >
-                    <Text style={styles.alertText}>
-                        ⚠️ Tu panel de administración no está protegido. Haz clic aquí para configurar un PIN.
-                    </Text>
-                </TouchableOpacity>
-            )}
-            <View style={styles.tabContainer}>
-                {tabs.map((tab, index) => (
-                    <Tab
-                        key={tab.key}
-                        tabKey={tab.key}
-                        label={tab.label}
-                        activeTab={activeTab}
-                        handleActiveTab={handleActiveTab}
-                        isFirst={index === 0}
-                        isLast={index === tabs.length - 1}
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
+                {!hasPin && (
+                    <View style={styles.warningBanner}>
+                        <MaterialCommunityIcons name="alert-circle" size={24} color="#FF9800" />
+                        <View style={styles.warningContent}>
+                            <Text style={styles.warningTitle}>⚠️ Sin PIN configurado</Text>
+                            <Text style={styles.warningDescription}>Tu módulo no está protegido. Configúralo en la pestaña de Configuración</Text>
+                        </View>
+                    </View>
+                )}
+                {activeTab === 'pictograms' &&
+                    <PictogramManagement
+                        pictograms={pictograms}
+                        categories={categories}
+                        onDelete={deletePictogram}
                     />
-                ))}
+                }
+                {activeTab === 'categories' &&
+                    <CategoryManagement
+                        categories={categories}
+                        pictograms={pictograms}
+                        onDelete={deleteCategory}
+                    />
+                }
+                {activeTab === 'configuration' &&
+                    <ConfigurationManagement />
+                }
             </View>
-            {activeTab === 'pictograms' &&
-                <PictogramManagement
-                    pictograms={pictograms}
-                    categories={categories}
-                    onDelete={deletePictogram}
-                />
-            }
-            {activeTab === 'categories' &&
-                <CategoryManagement
-                    categories={categories}
-                    pictograms={pictograms}
-                    onDelete={deleteCategory}
-                />
-            }
-            {activeTab === 'configuration' &&
-                <ConfigurationManagement />
-            }
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -85,25 +98,33 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#E6EDED',
     },
-    alertContainer: {
-        backgroundColor: '#FFF3CD',
-        padding: 12,
-        marginHorizontal: 10,
-        marginTop: 10,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#FFEeba',
+    safeArea: {
+        flex: 1,
+        backgroundColor: '#07999921',
+        paddingTop: 0,
+        marginTop: 0,
+    },
+    warningBanner: {
+        marginTop: -35,
+        backgroundColor: '#FFF3E0',
+        borderBottomWidth: 3,
+        borderBottomColor: '#FF9800',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        flexDirection: 'row',
         alignItems: 'center',
     },
-    alertText: {
-        color: '#856404',
-        fontSize: 14,
-        fontWeight: '600',
+    warningContent: {
+        flex: 1,
     },
-    tabContainer: {
-        flexDirection: 'row',
-        height: 'auto',
-        paddingVertical: 10,
-        paddingHorizontal: 10,
+    warningTitle: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#FF9800',
+    },
+    warningDescription: {
+        fontSize: 13,
+        color: '#E65100',
+        marginTop: 2,
     },
 })
