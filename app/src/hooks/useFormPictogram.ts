@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
 
-const TODOS_CATEGORY_ID = 'todos';
+export const TODOS_CATEGORY_ID = 'todas';
 
 interface PictoFormProps {
     categories: ICategory[]
@@ -16,13 +16,12 @@ interface PictoFormProps {
 export const useFormPictogram = (params?: PictoFormProps) => {
     const router = useRouter()
 
-    const { addPictogram, updatePictogram, deletePictogram, pictogramsSetter } = usePictogramContext()
-    const { picto: pictoToEdit, categories } = params || {}
+    const { addPictogram, updatePictogram, deletePictogram } = usePictogramContext()
+    const { picto: pictoToEdit } = params || {}
 
     const [text, setText] = useState('')
     const [imageUri, setImageUri] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState(categories?.[0]?.id || '')
-
+    const [selectedCategory, setSelectedCategory] = useState(TODOS_CATEGORY_ID)
 
     const textSetter = (value: string) => setText(value)
     const categorySetter = (value: string) => setSelectedCategory(value)
@@ -82,8 +81,6 @@ export const useFormPictogram = (params?: PictoFormProps) => {
     const pictoToUpdateSetter = useCallback(() => {
         if (pictoToEdit) {
             textSetter(pictoToEdit?.text)
-            // Si el pictograma tiene "todos", mostrar "todos" como seleccionado
-            // Si tiene múltiples categorías, mostrar la que no sea "todos"
             const nonTodosCategory = pictoToEdit?.categoryIds.find(id => id !== TODOS_CATEGORY_ID);
             categorySetter(nonTodosCategory || TODOS_CATEGORY_ID)
             imageSetter(pictoToEdit?.imageUri)

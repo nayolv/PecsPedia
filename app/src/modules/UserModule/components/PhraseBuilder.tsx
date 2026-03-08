@@ -19,9 +19,9 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
         <View style={styles.topSection}>
             <View style={styles.phraseWrapper}>
                 <RoundedButton
-                    icon='volume-high'
-                    onPress={onSpeak}
-                    style={{ backgroundColor: '#818fdbff', marginHorizontal: 10 }}
+                    icon='trash-can'
+                    onPress={onClear}
+                    style={{ backgroundColor: '#9e1414', marginHorizontal: 10 }}
                 />
                 <View style={styles.phraseContainer}>
                     <ScrollView horizontal contentContainerStyle={styles.phraseScrollContent} showsHorizontalScrollIndicator={false}>
@@ -37,11 +37,10 @@ export const PhraseBuilder = ({ phrase, onClear, onSpeak }: PhraseBuilderProps) 
                     </ScrollView>
                 </View>
                 <RoundedButton
-                    icon='trash-can'
-                    onPress={onClear}
-                    style={{ backgroundColor: '#E57373', marginHorizontal: 10 }}
+                    icon='volume-high'
+                    onPress={onSpeak}
+                    style={{ backgroundColor: '#818fdbff', marginHorizontal: 10 }}
                 />
-
             </View>
         </View>
     );

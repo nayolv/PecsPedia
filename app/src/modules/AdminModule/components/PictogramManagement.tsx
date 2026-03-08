@@ -40,7 +40,7 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
             <PictogramList
                 filteredPictograms={filteredPictograms}
                 renderItem={({ item }) => {
-                    const category = categories.find(cat => cat.id === item.categoryIds[0])
+                    const category = categories.find(cat => cat.id === item.categoryIds?.find(id => id === cat.id))
                     const params: PictoParams = {
                         picto: JSON.stringify(item),
                         categories: JSON.stringify(categories),

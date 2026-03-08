@@ -1,5 +1,5 @@
 import { CustomPicker } from '@/app/src/components/Selectors/CustomPicker/CustomPicker'
-import { useFormPictogram } from '@/app/src/hooks/useFormPictogram'
+import { TODOS_CATEGORY_ID, useFormPictogram } from '@/app/src/hooks/useFormPictogram'
 import { ICategory, IPictogram } from '@/app/src/types/PyctogramTypes'
 import { useLocalSearchParams } from 'expo-router'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
@@ -42,7 +42,10 @@ export const PictoForm = ({ }) => {
       <CustomPicker
         selectedValue={selectedCategory}
         onValueChange={(itemValue) => categorySetter(itemValue)}
-        items={parsedCategories?.map(cat => ({ label: cat.name, value: cat.id })) || []}
+        items={[
+          { label: 'Todas las categorías', value: TODOS_CATEGORY_ID },
+          ...(parsedCategories?.map(cat => ({ label: cat.name, value: cat.id })) || [])
+        ]}
         containerStyle={formStyles.pickerContainer}
       />
       <Text style={formStyles.label}>Imagen/Ícono</Text>

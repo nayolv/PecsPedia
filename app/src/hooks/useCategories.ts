@@ -4,9 +4,9 @@ import { ICategory } from '../types/PyctogramTypes';
 import { CATEGORY_STORAGE_KEY } from '../utils/consts';
 
 const initialCategories: ICategory[] = [
-    { id: 'cat-1', name: 'Acciones', color: '#FFDAB9', imageUri: 'https://via.placeholder.com/50/FFDAB9?text=Acc' },
-    { id: 'cat-2', name: 'Personas', color: '#ADD8E6', imageUri: 'https://via.placeholder.com/50/ADD8E6?text=Per' },
-    { id: 'cat-3', name: 'Sentimientos', color: '#98FB98', imageUri: 'https://via.placeholder.com/50/98FB98?text=Sen' },
+    { id: 'cat-1', name: 'Acciones', color: '#FFDAB9', imageUri: '' },
+    { id: 'cat-2', name: 'Personas', color: '#ADD8E6', imageUri: '' },
+    { id: 'cat-3', name: 'Sentimientos', color: '#98FB98', imageUri: '' },
 ];
 
 export const useCategories = () => {
