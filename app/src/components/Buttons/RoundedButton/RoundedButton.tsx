@@ -34,10 +34,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#fff',
         borderRadius: 30,
-        elevation: 8,
-        shadowColor: '#000',
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
     },
     text: {
         fontSize: 30,

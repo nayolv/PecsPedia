@@ -1,11 +1,10 @@
-import { RoundedButton } from '@/app/src/components/Buttons/RoundedButton/RoundedButton'
 import { CollapsibleSearchBar } from '@/app/src/components/Inputs/SearchBar/CollapsibleSearchBar'
 import { PictogramList } from '@/app/src/components/Lists/PictogramList/PictogramList'
 import { CollapsibleCategoryPicker } from '@/app/src/components/Selectors/CustomPicker/CollapsibleCategoryPicker'
-import { StyleSheet, Text, View } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { usePictogramManagement } from '../hooks/usePictogramManagement'
 import { PictogramManagementProps, PictoParams } from '../models/managementModels'
-import { fabBtnStyles } from '../utils/stylesUtils'
 import { ListItem } from './Lists/ListItem'
 
 export const PictogramManagement = ({ pictograms, categories, onDelete }: PictogramManagementProps) => {
@@ -24,7 +23,6 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
     return (
         <View style={styles.container}>
             <View style={styles.filtersContainer}>
-                <Text>Pictogramas</Text>
                 <CollapsibleCategoryPicker
                     selectedValue={selectedCategory}
                     onValueChange={(itemValue) => setSelectedCategory(itemValue)}
@@ -36,6 +34,13 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
                     value={searchQuery}
                     onChangeText={setSearchQuery}
                 />
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={onCreatePicto}
+                    activeOpacity={0.7}
+                >
+                    <MaterialCommunityIcons name="plus" size={24} color="#6BAABB" />
+                </TouchableOpacity>
             </View>
             <PictogramList
                 filteredPictograms={filteredPictograms}
@@ -59,11 +64,6 @@ export const PictogramManagement = ({ pictograms, categories, onDelete }: Pictog
                     />
                 }}
             />
-            <RoundedButton
-                icon='plus'
-                style={fabBtnStyles}
-                onPress={onCreatePicto}
-            />
         </View>
     )
 }
@@ -83,5 +83,10 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         marginBottom: 0
+    },
+    addButton: {
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

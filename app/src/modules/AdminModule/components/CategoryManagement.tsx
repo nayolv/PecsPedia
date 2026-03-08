@@ -3,7 +3,6 @@ import { CollapsibleSearchBar } from "@/app/src/components/Inputs/SearchBar/Coll
 import { Alert, FlatList, StyleSheet, View } from "react-native"
 import { useCategoryManagement } from "../hooks/useCategoryManagement"
 import { CategoryManagementProps, CatParams } from "../models/managementModels"
-import { fabBtnStyles } from "../utils/stylesUtils"
 import { ListItem } from "./Lists/ListItem"
 
 const TODOS_CATEGORY_ID = 'todos';
@@ -39,6 +38,28 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
           onChangeText={setSearchQuery}
           placeholder="Buscar categorías..."
         />
+        <RoundedButton
+          icon="plus"
+          onPress={onCreateCat}
+          iconStyle={{
+            color: '#333'
+          }}
+          style={{
+            width: 50,
+            height: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 25,
+            backgroundColor: '#f0f0f0',
+          }}
+        />
+        {/* <TouchableOpacity
+          style={styles.addButton}
+          onPress={onCreateCat}
+          activeOpacity={0.7}
+        >
+          <MaterialCommunityIcons name="plus" size={24} color="#6BAABB" />
+        </TouchableOpacity> */}
       </View>
       <FlatList
         key={numColumns}
@@ -66,11 +87,6 @@ export const CategoryManagement = ({ categories, pictograms, onDelete }: Categor
           />
         }}
       />
-      <RoundedButton
-        icon='plus'
-        style={fabBtnStyles}
-        onPress={onCreateCat}
-      />
     </View>
   )
 }
@@ -86,6 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     minHeight: 60,
+    gap: 10,
   },
   searchBar: {
     marginBottom: 0
@@ -93,5 +110,10 @@ const styles = StyleSheet.create({
   listContent: {
     paddingTop: 5,
     paddingBottom: 20,
-  }
+  },
+  addButton: {
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })

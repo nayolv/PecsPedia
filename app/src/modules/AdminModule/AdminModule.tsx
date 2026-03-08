@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { BasicLoader } from '../../components/Loaders/BasicLoader'
-import { MenuItem } from '../../components/Navigation/BurgerMenu/BurgerMenu'
 import { useAdminPin } from '../../hooks/useAdminPin'
 import { useDataHandler } from '../../hooks/useDataHandler'
+import { BottomTabBar } from './components/BottomTabBar/BottomTabBar'
 import { CategoryManagement } from './components/CategoryManagement'
 import { ConfigurationManagement } from './components/ConfigurationManagement'
 import { PictogramManagement } from './components/PictogramManagement'
@@ -13,37 +13,16 @@ import { PinEntry } from './components/PinEntry'
 
 export type TabKey = 'pictograms' | 'categories' | 'configuration'
 
-export const menuItems: MenuItem[] = [
-    {
-        key: 'pictograms',
-        label: 'Pictogramas',
-        icon: '🖼️',
-    },
-    {
-        key: 'categories',
-        label: 'Categorías',
-        icon: '📂',
-    },
-    {
-        key: 'configuration',
-        label: 'Configuración',
-        icon: '⚙️',
-    },
-]
-
 interface AdminModuleProps {
     initialVerified?: boolean
-    activeTab?: TabKey
-    onMenuStateChange?: (activeTab: TabKey) => void
 }
 
 export const AdminModule = ({
     initialVerified = false,
-    activeTab = 'pictograms',
-    onMenuStateChange
 }: AdminModuleProps) => {
     const { hasPin, isLoading: isLoadingPin } = useAdminPin()
     const [isVerified, setIsVerified] = useState(initialVerified)
+    const [activeTab, setActiveTab] = useState<TabKey>('pictograms')
     const {
         isLoading,
         pictograms,
@@ -70,23 +49,28 @@ export const AdminModule = ({
                         </View>
                     </View>
                 )}
-                {activeTab === 'pictograms' &&
-                    <PictogramManagement
-                        pictograms={pictograms}
-                        categories={categories}
-                        onDelete={deletePictogram}
-                    />
-                }
-                {activeTab === 'categories' &&
-                    <CategoryManagement
-                        categories={categories}
-                        pictograms={pictograms}
-                        onDelete={deleteCategory}
-                    />
-                }
-                {activeTab === 'configuration' &&
-                    <ConfigurationManagement />
-                }
+
+                <View style={styles.content}>
+                    {activeTab === 'pictograms' &&
+                        <PictogramManagement
+                            pictograms={pictograms}
+                            categories={categories}
+                            onDelete={deletePictogram}
+                        />
+                    }
+                    {activeTab === 'categories' &&
+                        <CategoryManagement
+                            categories={categories}
+                            pictograms={pictograms}
+                            onDelete={deleteCategory}
+                        />
+                    }
+                    {activeTab === 'configuration' &&
+                        <ConfigurationManagement />
+                    }
+                </View>
+
+                <BottomTabBar activeTab={activeTab} onTabChange={setActiveTab} />
             </View>
         </SafeAreaView>
     )
@@ -97,12 +81,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#E6EDED',
+        flexDirection: 'column',
     },
     safeArea: {
         flex: 1,
         backgroundColor: '#07999921',
         paddingTop: 0,
         marginTop: 0,
+    },
+    content: {
+        flex: 1,
     },
     warningBanner: {
         marginTop: -35,
